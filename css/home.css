@@ -1,0 +1,50 @@
+#imoveis-destaque-titulo{
+    color: #11397a;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+#container-imagens{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content:space-evenly;
+}
+
+#container-imagens img{
+    border-radius: 5px;
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 1/1;
+    max-width: 350px;
+}
+
+#container-imagens h3{
+    color: #11397a;
+}
+
+#secao-quem-somos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#secao-quem-somos p{
+    color: #11397a;
+    font-weight: 500;
+}
+
+#secao-quem-somos h3{
+    color: #11397a;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+#secao-quem-somos .italico{
+    margin-top: 0;
+}

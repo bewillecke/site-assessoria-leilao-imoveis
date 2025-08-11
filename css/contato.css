@@ -1,0 +1,77 @@
+label{
+    color: #11397a;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+input{
+    border: solid black 1px;
+    border-radius: 5px;
+    padding: 5px;
+    width: 20rem;
+}
+
+textarea{
+    border: solid black 1px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#contato-titulo{
+    color: #11397a;
+    margin-bottom: 0;
+    margin-top: 3rem;
+}
+
+#container-contato{
+    display:flex;
+    flex-wrap: wrap;
+    margin: 0;
+    flex: 1;
+    gap: 1rem;
+}
+
+#texto-aside{
+    font-weight: 500;
+    flex: 1;
+    padding: 1rem;
+    width: 48%;
+    color: #11397a;
+    padding-right: 2rem;
+    padding-left: 0;
+}
+
+#container-pai{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.div-input{
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    margin: 0.1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+#div-mensagem{
+    display: flex;
+    flex-direction: column;
+    width: 85.2%;
+    margin-top: 0.1rem;
+    padding: 1rem;
+}
+
+#textarea-mensagem{
+    width: 100%;
+    height: 8rem;
+}
+
+.titulo-imovel{
+    color: #11397a;
+    margin-top: 0.5rem;
+}
