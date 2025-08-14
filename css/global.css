@@ -4,8 +4,12 @@
     font-family: montserrat;
 }
 
-h1, h2, p{
+h1, h2, h2{
     margin-left: 1rem;
+}
+
+h3{
+    font-size: 25px;
 }
 
 p{
@@ -13,21 +17,12 @@ p{
     line-height: 1.7;
 }
 
-h1{
-    font-size: 50px;
-}
-
-h2{
-    font-size: 30px;
-}
-
-h3{
-    font-size: 25px;
-    font-weight: 500;
-}
-
 body{
     margin: 0;
+}
+
+#logo{
+    height: 75px;
 }
 
 #titulo{
@@ -35,22 +30,23 @@ body{
     margin-bottom: 0;
 }
 
+#explicacao{
+    margin-left: 2rem;
+    font-weight: 200;
+}
+
+#subtitulo{
+    margin: 0 2rem;
+}
+
 #secao-cabecalho{
     color: #FFFFFF;
     background-color: #11397a;
     width: 100%;
-    min-height: 300px;
+    min-height: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-#logo{
-    border-radius: 30px;
-    margin-right: 10rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    width: 300px;
 }
 
 #secao-navegacao{
