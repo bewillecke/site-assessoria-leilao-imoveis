@@ -9,13 +9,14 @@ input{
     border: solid black 1px;
     border-radius: 5px;
     padding: 5px;
-    width: 20rem;
+    max-width: 20rem;
 }
 
 textarea{
     border: solid black 1px;
     border-radius: 5px;
     padding: 5px;
+    max-width: 100rem;
 }
 
 #contato-titulo{
