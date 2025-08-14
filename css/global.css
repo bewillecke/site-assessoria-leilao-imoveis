@@ -92,6 +92,7 @@ body{
 #navegacao a:hover span::after {
   transform: scaleX(1);
 }
+
 footer{
     color: #FFFFFF;
     background-color: #11397a;
