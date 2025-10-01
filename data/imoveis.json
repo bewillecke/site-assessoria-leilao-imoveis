@@ -1,0 +1,202 @@
+[
+  {
+    "foto": "imagens/imoveis/imovel-01.jpg",
+    "cidade_estado": "São Paulo/SP",
+    "endereco": "Rua das Flores, 123",
+    "tamanho_m2": 65,
+    "quartos": 1,
+    "banheiros": 1,
+    "preco": 50000,
+    "data_leilao": "2026-09-15"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-02.jpg",
+    "cidade_estado": "Rio de Janeiro/RJ",
+    "endereco": "Av. Atlântica, 250",
+    "tamanho_m2": 80,
+    "quartos": 2,
+    "banheiros": 1,
+    "preco": 60000,
+    "data_leilao": "2026-10-02"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-03.jpg",
+    "cidade_estado": "Belo Horizonte/MG",
+    "endereco": "Rua Afonso Pena, 450",
+    "tamanho_m2": 145,
+    "quartos": 3,
+    "banheiros": 2,
+    "preco": 170000,
+    "data_leilao": "2026-11-10"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-04.jpg",
+    "cidade_estado": "Curitiba/PR",
+    "endereco": "Rua XV de Novembro, 987",
+    "tamanho_m2": 170,
+    "quartos": 4,
+    "banheiros": 3,
+    "preco": 220000,
+    "data_leilao": "2026-12-01"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-05.jpg",
+    "cidade_estado": "Salvador/BA",
+    "endereco": "Rua do Carmo, 45",
+    "tamanho_m2": 72,
+    "quartos": 1,
+    "banheiros": 1,
+    "preco": 55000,
+    "data_leilao": "2026-09-25"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-06.jpg",
+    "cidade_estado": "Fortaleza/CE",
+    "endereco": "Av. Beira Mar, 1200",
+    "tamanho_m2": 95,
+    "quartos": 2,
+    "banheiros": 1,
+    "preco": 60000,
+    "data_leilao": "2026-10-18"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-07.jpg",
+    "cidade_estado": "Manaus/AM",
+    "endereco": "Rua dos Andradas, 333",
+    "tamanho_m2": 110,
+    "quartos": 3,
+    "banheiros": 2,
+    "preco": 100000,
+    "data_leilao": "2026-11-22"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-08.jpg",
+    "cidade_estado": "Porto Alegre/RS",
+    "endereco": "Av. Ipiranga, 789",
+    "tamanho_m2": 198,
+    "quartos": 4,
+    "banheiros": 3,
+    "preco": 300000,
+    "data_leilao": "2026-12-15"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-09.jpg",
+    "cidade_estado": "Recife/PE",
+    "endereco": "Rua Boa Vista, 55",
+    "tamanho_m2": 70,
+    "quartos": 1,
+    "banheiros": 1,
+    "preco": 40000,
+    "data_leilao": "2026-09-28"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-10.jpg",
+    "cidade_estado": "Florianópolis/SC",
+    "endereco": "Rua das Gaivotas, 320",
+    "tamanho_m2": 130,
+    "quartos": 3,
+    "banheiros": 2,
+    "preco": 100000,
+    "data_leilao": "2026-11-05"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-11.jpg",
+    "cidade_estado": "Goiânia/GO",
+    "endereco": "Av. Anhanguera, 999",
+    "tamanho_m2": 85,
+    "quartos": 2,
+    "banheiros": 1,
+    "preco": 70000,
+    "data_leilao": "2026-10-12"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-12.jpg",
+    "cidade_estado": "Vitória/ES",
+    "endereco": "Rua Sete, 45",
+    "tamanho_m2": 155,
+    "quartos": 4,
+    "banheiros": 3,
+    "preco": 120000,
+    "data_leilao": "2026-12-20"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-13.jpg",
+    "cidade_estado": "Campinas/SP",
+    "endereco": "Rua Barão de Jaguara, 321",
+    "tamanho_m2": 60,
+    "quartos": 1,
+    "banheiros": 1,
+    "preco": 30000,
+    "data_leilao": "2026-09-19"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-14.jpg",
+    "cidade_estado": "Natal/RN",
+    "endereco": "Av. Roberto Freire, 455",
+    "tamanho_m2": 100,
+    "quartos": 2,
+    "banheiros": 1,
+    "preco": 75000,
+    "data_leilao": "2026-10-30"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-15.jpg",
+    "cidade_estado": "Belém/PA",
+    "endereco": "Rua da Paz, 600",
+    "tamanho_m2": 120,
+    "quartos": 3,
+    "banheiros": 2,
+    "preco": 120000,
+    "data_leilao": "2026-11-17"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-16.jpg",
+    "cidade_estado": "Florianópolis/SC",
+    "endereco": "Rua dos Remédios, 720",
+    "tamanho_m2": 160,
+    "quartos": 4,
+    "banheiros": 3,
+    "preco": 210000,
+    "data_leilao": "2026-12-08"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-17.jpg",
+    "cidade_estado": "São Paulo/SP",
+    "endereco": "Av. Cabo Branco, 88",
+    "tamanho_m2": 78,
+    "quartos": 2,
+    "banheiros": 1,
+    "preco": 55000,
+    "data_leilao": "2026-09-29"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-18.jpg",
+    "cidade_estado": "Rio de Janeiro/RJ",
+    "endereco": "Rua Pajuçara, 180",
+    "tamanho_m2": 138,
+    "quartos": 3,
+    "banheiros": 2,
+    "preco": 130000,
+    "data_leilao": "2026-11-02"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-19.jpg",
+    "cidade_estado": "Campo Grande/MS",
+    "endereco": "Av. Afonso Pena, 1900",
+    "tamanho_m2": 200,
+    "quartos": 4,
+    "banheiros": 3,
+    "preco": 200000,
+    "data_leilao": "2026-12-25"
+  },
+  {
+    "foto": "imagens/imoveis/imovel-20.jpg",
+    "cidade_estado": "São Paulo/SP",
+    "endereco": "Rua da Aurora, 301",
+    "tamanho_m2": 55,
+    "quartos": 1,
+    "banheiros": 1,
+    "preco": 25000,
+    "data_leilao": "2026-09-20"
+  }
+]

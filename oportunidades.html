@@ -9,7 +9,7 @@
     integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="css/global.css">
-  <link rel="stylesheet" type="text/css" href="css/quem_somos.css">
+  <link rel="stylesheet" type="text/css" href="css/oportunidades.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
       <img src="data/imagens/logo_sem_fundo.png" id="logo">
       <h2 id="subtitulo">Assessoria em Leilão de Imóveis</h2>
 
-      <p id="explicacao">
+      <p id="explicacao" class="italico">
         Autoridade, estratégia e segurança no universo dos leilões de imóveis.
       </p>
 
@@ -40,41 +40,65 @@
 
   </section>
 
-  <!-- Seção quem somos -->
-  <section id="secao-quem-somos">
+  <!-- Seção de oportunidades -->
+  <section id="secao-oportunidades">
 
-    <div id="container-sobre-nos">
+    <div id="container-filtro">
 
-      <div id="sobre-soraya">
-
-        <img src="data/imagens/soraya.jpeg">
-        <h3>Soraya Willecke</h3>
-        <p>Servidora pública da Justiça Federal. Formada em Direito com especialização em Direito Imobiliário. Minha
-          essência profissional é guiada por três pilares: confiança, para que o investidor sinta-se seguro em cada
-          decisão; transparência, garantindo clareza sobre todos os riscos e vantagens; e resultado, transformando
-          oportunidades de leilão em ativos reais e rentáveis.
-          <br>Sou movida pelo desafio de simplificar um mercado que muitos consideram complexo e arriscado, tornando-o
-          acessível, previsível e altamente promissor para quem busca multiplicar seu patrimônio com inteligência.
-        </p>
-
+      <div class="filtro">
+        <p>Preço</p>
+        <input type="range" id="preco-input" name="preco-input" min="10000" max="500000" step="1000"
+        oninput="valorPrecoInput.value = this.value">
+        <output id="valorPrecoInput">R$ 10.000,00</output>
       </div>
 
-      <div id="sobre-ana">
-
-        <img src="data/imagens/ana.jpeg">
-        <h3>Ana Bek</h3>
-        <p>Servidora pública da Justiça Federal. Formada em Direito com especialização em Direito Imobiliário. Minha
-          essência profissional é guiada por três pilares: confiança, para que o investidor sinta-se seguro em cada
-          decisão; transparência, garantindo clareza sobre todos os riscos e vantagens; e resultado, transformando
-          oportunidades de leilão em ativos reais e rentáveis.
-          <br>Sou movida pelo desafio de simplificar um mercado que muitos consideram complexo e arriscado, tornando-o
-          acessível, previsível e altamente promissor para quem busca multiplicar seu patrimônio com inteligência.
-        </p>
-
+      <div class="filtro">
+        <p>Metros²</p>
+        <input type="range" id="metragem-input" name="metragem-input" min="50" max="200" step="1"
+        oninput="valorMetrosInput.value = this.value">
+        <output id="valorMetrosInput">50</output>
       </div>
 
+      <div class="filtro">
+        <p>Cidade/UF</p>
+        <input list="cidades" id="cidade-input" name="cidade-input" placeholder="Digite a cidade/UF">
+
+        <datalist id="cidades">
+          <option value="São Paulo/SP">
+          <option value="Rio de Janeiro/RJ">
+          <option value="Belo Horizonte/MG">
+          <option value="Porto Alegre/RS">
+          <option value="Curitiba/PR">
+          <option value="Campinas/SP">
+          <option value="Florianópolis/SC">
+          <option value="Salvador/BA">
+          <option value="Fortaleza/CE">
+          <option value="Manaus/AM">
+          <option value="Recife/PE">
+          <option value="Vitória/ES">
+          <option value="Belém/PA">
+          <option value="Goiânia/GO">
+          <option value="Natal/RN">
+          <option value="Campo Grande/MS">
+        </datalist>
+      </div>
+
+      <div class="filtro">
+        <p>Quartos</p>
+        <input type="number" id="quartos-input" name="quartos-input" min="1" max="4">
+      </div>
+
+      <div class="filtro">
+        <p>Banheiros</p>
+        <input type="number" id="banheiros-input" name="banheiros-input" min="1" max="3">
+      </div>
+      
     </div>
+
+    <div id="container-imoveis"></div>
+
   </section>
+
 
   <!-- Seção de rodapé -->
   <footer>
@@ -118,6 +142,7 @@
   </footer>
 
   <script src="scripts/global.js"></script>
+  <script src="scripts/oportunidades.js"></script>
 </body>
 
 </html>
