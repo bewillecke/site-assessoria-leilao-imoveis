@@ -1,9 +1,10 @@
 #imoveis-destaque-titulo{
     color: #11397a;
-    margin: 5rem 0 2rem 2rem;
+    margin: 5rem 0 2rem 2rem; /* margem do título (referência para o carrossel) */
     font-size: 35px;
 }
 
+/* Grid original (ainda usado fora do carrossel) */
 #container-imagens{
     display: flex;
     flex-wrap: wrap;
@@ -85,4 +86,97 @@
 
 #secao-sobre-nos .italico{
     margin-top: 0;
+}
+
+/* ====== CARROSSEL DE IMÓVEIS ====== */
+
+#carousel-destaques {
+  position: relative;
+  margin: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#carousel-destaques .car-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1;
+}
+#carousel-destaques .car-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+#carousel-destaques #container-imagens {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  gap: 3rem;
+  padding: 1rem 0;
+  margin: 0;
+}
+
+#carousel-destaques #container-imagens .imovel {
+  flex: 0 0 clamp(260px, 26%, 340px);
+  max-width: 340px;
+  scroll-snap-align: center;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+#carousel-destaques #container-imagens .imovel img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid #11397a33;
+  max-width: none !important;
+}
+
+#carousel-destaques #container-imagens .imovel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(17,57,122,.25);
+}
+
+@media (max-width: 640px) {
+  #carousel-destaques #container-imagens .imovel {
+    flex-basis: 85vw;
+    max-width: 85vw;
+  }
+}
+
+/* ===== SETAS ===== */
+.car-btn {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #11397a;
+  background: #fff;
+  color: #11397a;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s ease;
+}
+.car-btn:hover {
+  background: #11397a;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(17,57,122,.3);
+}
+
+.car-btn.prev {
+  margin-right: 0.5rem;
+}
+.car-btn.next {
+  margin-left: 0.5rem;
+}
+
+/* responsivo: esconde setas em telas pequenas */
+@media (max-width: 768px) {
+  .car-btn { display: none; }
 }
