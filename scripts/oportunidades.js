@@ -250,3 +250,58 @@ document.getElementById('btn-limpar-filtros')?.addEventListener('click', () => {
   setRangeFill(m2Min?.closest('.range-duplo'), m2Min, m2Max);
   aplicaFiltros();
 });
+
+// ====== Dropdown para Cidade/UF ======
+document.addEventListener("DOMContentLoaded", () => {
+  const combo = document.querySelector("#combo-cidade");
+  if (!combo) return;
+
+  const input = combo.querySelector("input");
+  const lista = combo.querySelector(".lista-cidades");
+  const opcoes = Array.from(lista.querySelectorAll("li"));
+
+  function fechar() {
+    combo.classList.remove("ativo");
+  }
+
+  function abrirSeTiverResultados() {
+    const termo = (input.value || "").toLowerCase().trim();
+    let matches = 0;
+
+    opcoes.forEach(li => {
+      const visivel = li.textContent.toLowerCase().includes(termo);
+      li.style.display = visivel ? "block" : "none";
+      if (visivel) matches++;
+    });
+
+    // abre só se houver resultados E o campo estiver focado
+    if (matches > 0 && document.activeElement === input) {
+      combo.classList.add("ativo");
+    } else {
+      fechar();
+    }
+  }
+
+  // abrir/filtrar
+  input.addEventListener("focus", abrirSeTiverResultados);
+  input.addEventListener("input", abrirSeTiverResultados);
+  input.addEventListener("click", abrirSeTiverResultados);
+
+  // selecionar item
+  opcoes.forEach(li => {
+    li.addEventListener("click", () => {
+      input.value = li.textContent;
+      fechar();
+      input.dispatchEvent(new Event("change")); // se quiser disparar filtro
+    });
+  });
+
+  // fechar fora/Esc
+  document.addEventListener("click", (e) => {
+    if (!combo.contains(e.target)) fechar();
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") fechar();
+  });
+});
+

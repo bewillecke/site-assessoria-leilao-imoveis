@@ -47,7 +47,9 @@
 
       <!-- Preço (DUAL SLIDER) -->
       <div class="filtro">
-        <p>Preço</p>
+        <label class="filtro-label" for="preco-min">
+          <i class="fa-solid fa-money-bill-wave"></i><span>Preço</span>
+        </label>
         <div class="range-duplo">
           <input type="range" id="preco-min" name="preco-min" min="10000" max="500000" step="1000" value="10000" aria-label="Preço mínimo">
           <input type="range" id="preco-max" name="preco-max" min="10000" max="500000" step="1000" value="500000" aria-label="Preço máximo">
@@ -61,7 +63,9 @@
 
       <!-- Metros² (DUAL SLIDER) -->
       <div class="filtro">
-        <p>Metros²</p>
+        <label class="filtro-label" for="m2-min">
+          <i class="fa-solid fa-ruler-combined"></i><span>Metros²</span>
+        </label>
         <div class="range-duplo">
           <input type="range" id="m2-min" name="m2-min" min="20" max="300" step="1" value="50" aria-label="Metragem mínima">
           <input type="range" id="m2-max" name="m2-max" min="20" max="300" step="1" value="200" aria-label="Metragem máxima">
@@ -73,41 +77,52 @@
         </div>
       </div>
 
-      <div class="filtro">
-        <p>Cidade/UF</p>
-        <input list="cidades" id="cidade-input" name="cidade-input" placeholder="Digite a cidade/UF">
+      <!-- Cidade/UF -->
+    <div class="filtro filtro-cidade">
+      <label class="filtro-label" for="cidade-input">
+        <i class="fa-solid fa-location-dot"></i><span>Cidade/UF</span>
+      </label>
 
-        <datalist id="cidades">
-          <option value="São Paulo/SP">
-          <option value="Rio de Janeiro/RJ">
-          <option value="Belo Horizonte/MG">
-          <option value="Porto Alegre/RS">
-          <option value="Curitiba/PR">
-          <option value="Campinas/SP">
-          <option value="Florianópolis/SC">
-          <option value="Salvador/BA">
-          <option value="Fortaleza/CE">
-          <option value="Manaus/AM">
-          <option value="Recife/PE">
-          <option value="Vitória/ES">
-          <option value="Belém/PA">
-          <option value="Goiânia/GO">
-          <option value="Natal/RN">
-          <option value="Campo Grande/MS">
-        </datalist>
+      <div class="combo-elegante" id="combo-cidade">
+        <input type="text" id="cidade-input" placeholder="Digite a cidade/UF" autocomplete="off" />
+        <ul class="lista-cidades">
+          <li>São Paulo/SP</li>
+          <li>Rio de Janeiro/RJ</li>
+          <li>Belo Horizonte/MG</li>
+          <li>Porto Alegre/RS</li>
+          <li>Curitiba/PR</li>
+          <li>Campinas/SP</li>
+          <li>Florianópolis/SC</li>
+          <li>Salvador/BA</li>
+          <li>Fortaleza/CE</li>
+          <li>Manaus/AM</li>
+          <li>Recife/PE</li>
+          <li>Vitória/ES</li>
+          <li>Belém/PA</li>
+          <li>Goiânia/GO</li>
+          <li>Natal/RN</li>
+          <li>Campo Grande/MS</li>
+        </ul>
       </div>
-
-      <div class="filtro">
-        <p>Quartos</p>
-        <input type="number" id="quartos-input" name="quartos-input" min="1" max="4">
-      </div>
-
-      <div class="filtro">
-        <p>Banheiros</p>
-        <input type="number" id="banheiros-input" name="banheiros-input" min="1" max="3">
-      </div>
-      
     </div>
+
+  <!-- Quartos -->
+  <div class="filtro">
+    <label class="filtro-label" for="quartos-input">
+      <i class="fa-solid fa-bed"></i><span>Quartos</span>
+    </label>
+    <input type="number" id="quartos-input" name="quartos-input" class="input-elegante" min="1" max="4" placeholder="Ex.: 2">
+  </div>
+
+  <!-- Banheiros -->
+  <div class="filtro">
+    <label class="filtro-label" for="banheiros-input">
+      <i class="fa-solid fa-bath"></i><span>Banheiros</span>
+    </label>
+    <input type="number" id="banheiros-input" name="banheiros-input" class="input-elegante" min="1" max="3" placeholder="Ex.: 2">
+  </div>
+
+</div>
 
     <div id="acoes-filtro">
       <button id="btn-limpar-filtros">Limpar filtros</button>

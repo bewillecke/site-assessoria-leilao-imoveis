@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(180px, 1fr));
   gap: 1.25rem;
-  margin: 2rem 4rem 3rem 4rem;
+  margin: 3rem 4rem 3rem 4rem;
 }
 
 @media (max-width: 1200px){
@@ -200,7 +200,6 @@ output{
   }
 }
 
-
 #acoes-filtro{
   display: flex;
   justify-content: center;
@@ -217,8 +216,155 @@ output{
   font-size: 1rem;
   cursor: pointer;
   transition: background-color .3s ease;
+  margin-bottom: 2rem;
 }
 
 #btn-limpar-filtros:hover{
   background-color: #0e2f68;
+}
+
+.filtro-label{
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  color: #11397a;
+  font-weight: 700;
+  margin: 0 0 .5rem 0;
+  line-height: 1;
+}
+
+.filtro-label i{
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #11397a;
+  color: #11397a;
+  background: #f2f6ff;
+  font-size: 14px;
+}
+
+.input-elegante{
+  width: 100%;
+  box-sizing: border-box;
+  padding: .65rem .85rem;
+  border-radius: 10px;
+  border: 1.5px solid #c9d3e6;
+  background: #fff;
+  color: #11397a;
+  font-weight: 600;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.input-elegante::placeholder{
+  color: #8aa0c2;
+  font-weight: 500;
+}
+
+.input-elegante:hover{
+  border-color: #9fb2d6;
+}
+
+.input-elegante:focus{
+  border-color: #11397a;
+  box-shadow: 0 0 0 3px rgba(17,57,122,.15);
+}
+
+.input-elegante[type="number"]{
+  -moz-appearance: textfield;
+}
+
+.input-elegante[type="number"]::-webkit-outer-spin-button,
+.input-elegante[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.filtro input[type="number"],
+.filtro input[list]{
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.combo-elegante {
+  position: relative;
+  width: 100%;
+}
+
+.combo-elegante input {
+  width: 100%;
+  padding: .65rem .85rem;
+  border-radius: 10px;
+  border: 1.5px solid #c9d3e6;
+  background: #fff;
+  color: #11397a;
+  font-weight: 600;
+  transition: border-color .2s ease, box-shadow .2s ease;
+  cursor: text;
+}
+
+.combo-elegante input:focus {
+  border-color: #11397a;
+  box-shadow: 0 0 0 3px rgba(17,57,122,.15);
+  outline: none;
+}
+
+.combo-elegante .lista-cidades {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: .3rem 0;
+  list-style: none;
+  border: 1.5px solid #11397a;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(17,57,122,.15);
+  z-index: 20;
+  display: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.combo-elegante .lista-cidades li {
+  padding: .5rem .85rem;
+  color: #11397a;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.combo-elegante .lista-cidades li:hover {
+  background: rgba(17,57,122,.08);
+}
+
+.combo-elegante.ativo .lista-cidades {
+  display: block;
+}
+
+.filtro-cidade {
+  min-width: 0;
+}
+
+.filtro-cidade .combo-elegante {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.filtro-cidade .combo-elegante input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.filtro-cidade .lista-cidades {
+  width: 100%;
+  box-sizing: border-box;
 }
