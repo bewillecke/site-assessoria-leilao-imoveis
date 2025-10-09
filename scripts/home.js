@@ -9,7 +9,7 @@
   const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const fmtData = iso => new Date(iso).toLocaleDateString('pt-BR');
 
-  // ===== 1) Buscar e montar cards aleatórios do JSON =====
+  // ===== Buscar e montar cards aleatórios do JSON =====
   async function carregarImoveis() {
     try {
       const resp = await fetch('data/imoveis.json');
@@ -43,7 +43,7 @@
     }
   }
 
-  // ===== 2) Lógica do carrossel =====
+  // ===== Lógica do carrossel =====
   function slideStep() {
     const cards = track.querySelectorAll('.card-imovel');
     if (cards.length < 2) return viewport.clientWidth;
@@ -94,7 +94,6 @@
     START();
   }
 
-  // ===== 3) Fluxo: carrega → então liga o carrossel =====
   await carregarImoveis();
   ligarControles();
 })();
