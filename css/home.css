@@ -1,10 +1,8 @@
 #imoveis-destaque-titulo{
     color: #11397a;
-    margin: 5rem 0 2rem 2rem; /* margem do título (referência para o carrossel) */
-    font-size: 35px;
+    margin: 5rem 0 2rem 2rem;
 }
 
-/* Grid original (ainda usado fora do carrossel, se necessário) */
 #container-imagens{
     display: flex;
     flex-wrap: wrap;
