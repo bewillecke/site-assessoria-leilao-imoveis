@@ -37,7 +37,7 @@ export default function Carousel({ items = [] }) {
   if (!items.length) return null;
 
   return (
-    <div className="relative mx-8 flex items-center gap-4">
+  <div className="relative mx-8 flex items-center gap-4 min-h-[540px]">
       <button
         onClick={() => go(-1)}
         className="hidden md:flex w-10 h-10 rounded-full border-2 border-[#11397a]
@@ -53,7 +53,7 @@ export default function Carousel({ items = [] }) {
         className="flex-1 overflow-x-auto scroll-smooth [scrollbar-width:none]
                    snap-x snap-mandatory"
       >
-        <div className="flex gap-6 py-4 min-w-full">
+  <div className="flex gap-6 py-4 pb-20 min-w-full">
           {items.map((item, idx) => (
             <div
               key={idx}

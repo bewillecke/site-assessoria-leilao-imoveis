@@ -22,13 +22,17 @@ export default function Home() {
       <Navbar />
 
       <section className="mt-4">
-        <h2 className="text-[#11397a] text-[2rem] font-extrabold ml-8 mb-4">
+  <h2 className="text-[#11397a] text-[2rem] font-extrabold ml-8 mb-4 mt-12">
           Imóveis em Destaque
         </h2>
-        <Carousel items={imoveis} />
+        <div className="pb-0 mb-0">
+          <Carousel items={imoveis} />
+        </div>
       </section>
 
-      <About />
+      <div className="mt-[-1.5rem]">
+        <About />
+      </div>
       <Footer />
     </>
   );

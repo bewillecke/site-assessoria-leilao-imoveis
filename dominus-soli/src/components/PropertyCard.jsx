@@ -2,13 +2,13 @@ import { BRL, formatDateBR } from "../utils/formatters";
 
 export default function PropertyCard({ item }) {
   return (
-    <div className="flex flex-col bg-white border border-[#11397a] rounded-2xl shadow-sm transition
-                    hover:-translate-y-0.5 hover:shadow-2xl overflow-hidden">
+  <div className="flex flex-col bg-white border border-[#11397a] rounded-2xl shadow-sm transition duration-600
+          hover:-translate-y-0.5 hover:shadow-2xl overflow-hidden">
       <div className="aspect-square overflow-hidden">
         <img
           src={/^(http|\/)/.test(item.foto) ? item.foto : `/data/${item.foto}`}
           alt={item.cidade_estado}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-[1.03]"
         />
       </div>
 

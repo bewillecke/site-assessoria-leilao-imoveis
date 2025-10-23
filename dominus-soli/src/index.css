@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+.social-icon-instagram {
+	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+	transition: filter 0.2s;
+}
+.social-icon-instagram:hover {
+	filter: brightness(0.92);
+}
+.social-icon-facebook {
+	background-color: #1877F2 !important;
+	transition: filter 0.2s;
+}
+.social-icon-facebook:hover {
+	filter: brightness(0.92);
+}
+.social-icon-whatsapp {
+	background-color: #25D366 !important;
+	transition: filter 0.2s;
+}
+.social-icon-whatsapp:hover {
+	filter: brightness(0.92);
+}
+
+.nav-underline {
+	position: relative;
+	text-decoration: none;
+	display: inline-block;
+	padding-inline: 0.15em;
+}
+.nav-underline::after {
+	content: "";
+	position: absolute;
+	left: 0.5%;
+	bottom: -2px;
+	width: 100%;
+	height: 2px;
+	background-color: #11397a;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-underline:hover::after,
+.nav-underline:focus::after {
+	transform: scaleX(1);
+}
