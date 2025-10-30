@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import QuemSomos from "./pages/QuemSomos.jsx";
+import Oportunidades from "./pages/Oportunidades.jsx";
+import Contato from "./pages/Contato.jsx";
 
 export default function App() {
   return (
@@ -8,6 +10,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quem-somos" element={<QuemSomos />} />
+        <Route path="/oportunidades" element={<Oportunidades />} />
+        <Route path="/contato" element={<Contato />} />
       </Routes>
     </BrowserRouter>
   );
