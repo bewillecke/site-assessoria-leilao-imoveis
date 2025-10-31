@@ -7,7 +7,9 @@
     "quartos": 1,
     "banheiros": 1,
     "preco": 50000,
-    "data_leilao": "2026-09-15"
+    "data_leilao": "2026-09-15",
+    "latitude": -23.561684,
+    "longitude": -46.655981
   },
   {
     "foto": "imagens/imoveis/imovel-02.jpg",
@@ -17,7 +19,9 @@
     "quartos": 2,
     "banheiros": 1,
     "preco": 60000,
-    "data_leilao": "2026-10-02"
+    "data_leilao": "2026-10-02",
+    "latitude": -22.967003,
+    "longitude": -43.180446
   },
   {
     "foto": "imagens/imoveis/imovel-03.jpg",
@@ -27,7 +31,9 @@
     "quartos": 3,
     "banheiros": 2,
     "preco": 170000,
-    "data_leilao": "2026-11-10"
+    "data_leilao": "2026-11-10",
+    "latitude": -19.924501,
+    "longitude": -43.937852
   },
   {
     "foto": "imagens/imoveis/imovel-04.jpg",
@@ -37,7 +43,9 @@
     "quartos": 4,
     "banheiros": 3,
     "preco": 220000,
-    "data_leilao": "2026-12-01"
+    "data_leilao": "2026-12-01",
+    "latitude": -25.429596,
+    "longitude": -49.271272
   },
   {
     "foto": "imagens/imoveis/imovel-05.jpg",
@@ -47,7 +55,9 @@
     "quartos": 1,
     "banheiros": 1,
     "preco": 55000,
-    "data_leilao": "2026-09-25"
+    "data_leilao": "2026-09-25",
+    "latitude": -12.971111,
+    "longitude": -38.510833
   },
   {
     "foto": "imagens/imoveis/imovel-06.jpg",
@@ -57,7 +67,9 @@
     "quartos": 2,
     "banheiros": 1,
     "preco": 60000,
-    "data_leilao": "2026-10-18"
+    "data_leilao": "2026-10-18",
+    "latitude": -3.718394,
+    "longitude": -38.500761
   },
   {
     "foto": "imagens/imoveis/imovel-07.jpg",
@@ -67,7 +79,9 @@
     "quartos": 3,
     "banheiros": 2,
     "preco": 100000,
-    "data_leilao": "2026-11-22"
+    "data_leilao": "2026-11-22",
+    "latitude": -3.130298,
+    "longitude": -60.023019
   },
   {
     "foto": "imagens/imoveis/imovel-08.jpg",
@@ -77,7 +91,9 @@
     "quartos": 4,
     "banheiros": 3,
     "preco": 300000,
-    "data_leilao": "2026-12-15"
+    "data_leilao": "2026-12-15",
+    "latitude": -30.044420,
+    "longitude": -51.208515
   },
   {
     "foto": "imagens/imoveis/imovel-09.jpg",
@@ -87,7 +103,9 @@
     "quartos": 1,
     "banheiros": 1,
     "preco": 40000,
-    "data_leilao": "2026-09-28"
+    "data_leilao": "2026-09-28",
+    "latitude": -8.062579,
+    "longitude": -34.871111
   },
   {
     "foto": "imagens/imoveis/imovel-10.jpg",
@@ -97,7 +115,9 @@
     "quartos": 3,
     "banheiros": 2,
     "preco": 100000,
-    "data_leilao": "2026-11-05"
+    "data_leilao": "2026-11-05",
+    "latitude": -27.594870,
+    "longitude": -48.548219
   },
   {
     "foto": "imagens/imoveis/imovel-11.jpg",
@@ -107,7 +127,9 @@
     "quartos": 2,
     "banheiros": 1,
     "preco": 70000,
-    "data_leilao": "2026-10-12"
+    "data_leilao": "2026-10-12",
+    "latitude": -16.678611,
+    "longitude": -49.253889
   },
   {
     "foto": "imagens/imoveis/imovel-12.jpg",
@@ -117,7 +139,9 @@
     "quartos": 4,
     "banheiros": 3,
     "preco": 120000,
-    "data_leilao": "2026-12-20"
+    "data_leilao": "2026-12-20",
+    "latitude": -20.3155,
+    "longitude": -40.3128
   },
   {
     "foto": "imagens/imoveis/imovel-13.jpg",
@@ -127,7 +151,9 @@
     "quartos": 1,
     "banheiros": 1,
     "preco": 30000,
-    "data_leilao": "2026-09-19"
+    "data_leilao": "2026-09-19",
+    "latitude": -22.90556,
+    "longitude": -47.06083
   },
   {
     "foto": "imagens/imoveis/imovel-14.jpg",
@@ -137,7 +163,9 @@
     "quartos": 2,
     "banheiros": 1,
     "preco": 75000,
-    "data_leilao": "2026-10-30"
+    "data_leilao": "2026-10-30",
+    "latitude": -5.79448,
+    "longitude": -35.211
   },
   {
     "foto": "imagens/imoveis/imovel-15.jpg",
@@ -147,7 +175,9 @@
     "quartos": 3,
     "banheiros": 2,
     "preco": 120000,
-    "data_leilao": "2026-11-17"
+    "data_leilao": "2026-11-17",
+    "latitude": -1.455833,
+    "longitude": -48.503889
   },
   {
     "foto": "imagens/imoveis/imovel-16.jpg",
@@ -157,7 +187,9 @@
     "quartos": 4,
     "banheiros": 3,
     "preco": 210000,
-    "data_leilao": "2026-12-08"
+    "data_leilao": "2026-12-08",
+    "latitude": -27.595377,
+    "longitude": -48.548049
   },
   {
     "foto": "imagens/imoveis/imovel-17.jpg",
@@ -167,7 +199,9 @@
     "quartos": 2,
     "banheiros": 1,
     "preco": 55000,
-    "data_leilao": "2026-09-29"
+    "data_leilao": "2026-09-29",
+    "latitude": -23.563987,
+    "longitude": -46.654321
   },
   {
     "foto": "imagens/imoveis/imovel-18.jpg",
@@ -177,7 +211,9 @@
     "quartos": 3,
     "banheiros": 2,
     "preco": 130000,
-    "data_leilao": "2026-11-02"
+    "data_leilao": "2026-11-02",
+    "latitude": -22.908333,
+    "longitude": -43.196388
   },
   {
     "foto": "imagens/imoveis/imovel-19.jpg",
@@ -187,7 +223,9 @@
     "quartos": 4,
     "banheiros": 3,
     "preco": 200000,
-    "data_leilao": "2026-12-25"
+    "data_leilao": "2026-12-25",
+    "latitude": -20.448333,
+    "longitude": -54.629444
   },
   {
     "foto": "imagens/imoveis/imovel-20.jpg",
@@ -197,6 +235,8 @@
     "quartos": 1,
     "banheiros": 1,
     "preco": 25000,
-    "data_leilao": "2026-09-20"
+    "data_leilao": "2026-09-20",
+    "latitude": -23.558432,
+    "longitude": -46.642123
   }
 ]

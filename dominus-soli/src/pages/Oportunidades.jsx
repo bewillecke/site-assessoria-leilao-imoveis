@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { BRL, formatDateBR } from "../utils/formatters";
+import MapImoveis from '../components/MapImoveis';
 
 export default function Oportunidades() {
   const [imoveis, setImoveis] = useState([]);
@@ -14,6 +15,7 @@ export default function Oportunidades() {
   const [quartos, setQuartos] = useState("");
   const [banheiros, setBanheiros] = useState("");
   const [cidadeDropdownOpen, setCidadeDropdownOpen] = useState(false);
+  const cidadeDropdownRef = useRef(null);
 
   const MIN_GAP_PRECO = 5000;
   const MIN_GAP_M2 = 5;
@@ -43,6 +45,19 @@ export default function Oportunidades() {
       .then((data) => setImoveis(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Erro ao carregar imoveis.json", err));
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cidadeDropdownRef.current && !cidadeDropdownRef.current.contains(event.target)) {
+        setCidadeDropdownOpen(false);
+      }
+    };
+
+    if (cidadeDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [cidadeDropdownOpen]);
 
   const filteredImoveis = imoveis.filter((x) => {
     const okPreco = Number(x.preco) >= precoMin && Number(x.preco) <= precoMax;
@@ -150,7 +165,7 @@ export default function Oportunidades() {
             </div>
           </div>
 
-          <div className="flex flex-col relative">
+          <div className="flex flex-col relative" ref={cidadeDropdownRef}>
             <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
               <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">📍</span>
               Cidade/UF
@@ -165,7 +180,7 @@ export default function Oportunidades() {
               className="w-full px-3 py-2 border-2 border-[#c9d3e6] rounded-lg bg-white text-[#11397a] font-semibold focus:border-[#11397a] focus:outline-none"
             />
             {cidadeDropdownOpen && cidadesFiltered.length > 0 && (
-              <ul className="absolute top-full left-0 right-0 mt-0 border-2 border-t-0 border-[#11397a] rounded-b-lg bg-white shadow-md z-20 max-h-48 overflow-y-auto">
+              <ul className="absolute top-full left-0 right-0 mt-0 border-2 border-t-0 border-[#11397a] rounded-b-lg bg-white shadow-md z-50 max-h-48 overflow-y-auto">
                 {cidadesFiltered.map((c, idx) => (
                   <li
                     key={idx}
@@ -223,6 +238,8 @@ export default function Oportunidades() {
             Limpar filtros
           </button>
         </div>
+
+        <MapImoveis imoveis={filteredImoveis} />
 
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl w-full px-4 mb-8">

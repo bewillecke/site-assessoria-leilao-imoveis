@@ -3,6 +3,7 @@ import Home from "./pages/Home.jsx";
 import QuemSomos from "./pages/QuemSomos.jsx";
 import Oportunidades from "./pages/Oportunidades.jsx";
 import Contato from "./pages/Contato.jsx";
+import 'leaflet/dist/leaflet.css';
 
 export default function App() {
   return (
