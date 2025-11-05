@@ -3,6 +3,7 @@ import Home from "./pages/Home.jsx";
 import QuemSomos from "./pages/QuemSomos.jsx";
 import Oportunidades from "./pages/Oportunidades.jsx";
 import Contato from "./pages/Contato.jsx";
+import Admin from "./pages/Admin.jsx";
 import 'leaflet/dist/leaflet.css';
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/quem-somos" element={<QuemSomos />} />
         <Route path="/oportunidades" element={<Oportunidades />} />
         <Route path="/contato" element={<Contato />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
