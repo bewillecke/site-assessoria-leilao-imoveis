@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -245,9 +246,10 @@ export default function Oportunidades() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl w-full px-4 mb-8">
             {filteredImoveis.length > 0 ? (
               filteredImoveis.map((imovel, idx) => (
-                <div
+                <Link
                   key={idx}
-                  className="flex flex-col bg-white border-2 border-[#11397a] rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-600 overflow-hidden"
+                  to={`/imovel/${imovel.id}`}
+                  className="flex flex-col bg-white border-2 border-[#11397a] rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-600 overflow-hidden cursor-pointer"
                 >
                   <div className="aspect-square overflow-hidden">
                     <img
@@ -264,10 +266,13 @@ export default function Oportunidades() {
                     {imovel.quartos} quarto(s) · {imovel.banheiros} banheiro(s)
                   </p>
                   <p className="text-[#11397a] text-sm mx-4">{imovel.tamanho_m2} m²</p>
-                  <p className="text-[#11397a] text-sm mx-4 pb-4">
+                  <p className="text-[#11397a] text-sm mx-4">
                     Data do leilão: {formatDateBR(imovel.data_leilao)}
                   </p>
-                </div>
+                  <button className="mx-4 mt-4 mb-4 bg-[#e6b952] text-[#11397a] font-bold py-2 rounded-lg hover:bg-[#d4a842] transition-colors">
+                    Ver Detalhes
+                  </button>
+                </Link>
               ))
             ) : (
               <p className="col-span-full text-center text-[#11397a] font-bold text-lg py-8">

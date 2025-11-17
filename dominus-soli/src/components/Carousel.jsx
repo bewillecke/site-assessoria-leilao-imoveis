@@ -18,7 +18,14 @@ export default function Carousel({ items = [] }) {
   const go = (dir) => {
     const vp = viewportRef.current;
     if (!vp) return;
-    vp.scrollBy({ left: dir * step, behavior: "smooth" });
+    
+    const isAtEnd = vp.scrollLeft + vp.clientWidth >= vp.scrollWidth - 10;
+    
+    if (dir > 0 && isAtEnd) {
+      vp.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      vp.scrollBy({ left: dir * step, behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
