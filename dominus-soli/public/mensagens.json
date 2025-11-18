@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": 1,
+    "nome": "Bernardo Willecke Martins da Rocha",
+    "email": "bewillecke@gmail.com",
+    "mensagem": "olá!",
+    "data": "2025-11-18T12:52:38.918Z",
+    "lida": true,
+    "resposta": "olá bernardo!",
+    "dataResposta": "2025-11-18T12:52:49.170Z"
+  },
+  {
+    "id": 2,
+    "nome": "Bernardo Willecke Martins da Rocha",
+    "email": "bewillecke@gmail.com",
+    "mensagem": "olá galera",
+    "data": "2025-11-18T13:15:45.517Z",
+    "lida": true,
+    "resposta": "olá bernardo! tudo bem?",
+    "dataResposta": "2025-11-18T13:15:56.022Z",
+    "emailEnviado": true
+  }
+]

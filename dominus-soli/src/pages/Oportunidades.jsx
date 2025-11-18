@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,6 +7,7 @@ import { BRL, formatDateBR } from "../utils/formatters";
 import MapImoveis from '../components/MapImoveis';
 
 export default function Oportunidades() {
+  const [searchParams] = useSearchParams();
   const [imoveis, setImoveis] = useState([]);
   const [precoMin, setPrecoMin] = useState(10000);
   const [precoMax, setPrecoMax] = useState(500000);
@@ -46,6 +47,18 @@ export default function Oportunidades() {
       .then((data) => setImoveis(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Erro ao carregar imoveis.json", err));
   }, []);
+
+  useEffect(() => {
+    const cidadeParam = searchParams.get('cidade');
+    const precoMaxParam = searchParams.get('precoMax');
+    
+    if (cidadeParam) {
+      setCidade(cidadeParam);
+    }
+    if (precoMaxParam) {
+      setPrecoMax(Number(precoMaxParam));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -10,7 +10,7 @@ export default function Admin() {
   const { user, logout } = useAuth();
   const [imoveis, setImoveis] = useState([]);
   const [mensagens, setMensagens] = useState([]);
-  const [activeTab, setActiveTab] = useState('imoveis'); // 'imoveis' ou 'mensagens'
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [form, setForm] = useState({
     foto: '',
     cidade_estado: '',
@@ -23,24 +23,66 @@ export default function Admin() {
     latitude: '',
     longitude: ''
   });
+  const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [filtroMensagens, setFiltroMensagens] = useState('todas');
+  const [respostaTexto, setRespostaTexto] = useState({});
+  const [mostrarResposta, setMostrarResposta] = useState({});
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/imoveis`)
-      .then(r => r.json())
-      .then(setImoveis)
-      .catch(err => console.error(err));
-
-    fetch(`${API_BASE}/api/mensagens`)
-      .then(r => r.json())
-      .then(setMensagens)
-      .catch(err => console.error(err));
+    carregarDados();
   }, []);
+
+  async function carregarDados() {
+    try {
+      const [imoveisRes, mensagensRes] = await Promise.all([
+        fetch(`${API_BASE}/api/imoveis`),
+        fetch(`${API_BASE}/api/mensagens`)
+      ]);
+      setImoveis(await imoveisRes.json());
+      setMensagens(await mensagensRes.json());
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+  }
+
+  function iniciarEdicao(imovel) {
+    setEditingId(imovel.id);
+    setForm({
+      foto: imovel.foto,
+      cidade_estado: imovel.cidade_estado,
+      endereco: imovel.endereco,
+      tamanho_m2: imovel.tamanho_m2,
+      quartos: imovel.quartos,
+      banheiros: imovel.banheiros,
+      preco: imovel.preco,
+      data_leilao: imovel.data_leilao,
+      latitude: imovel.latitude,
+      longitude: imovel.longitude
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function cancelarEdicao() {
+    setEditingId(null);
+    setForm({
+      foto: '',
+      cidade_estado: '',
+      endereco: '',
+      tamanho_m2: '',
+      quartos: '',
+      banheiros: '',
+      preco: '',
+      data_leilao: '',
+      latitude: '',
+      longitude: ''
+    });
   }
 
   async function handleSubmit(e) {
@@ -57,19 +99,41 @@ export default function Admin() {
         latitude: Number(form.latitude),
         longitude: Number(form.longitude)
       };
-      const res = await fetch(`${API_BASE}/api/imoveis`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Erro ao salvar');
+
+      if (editingId) {
+        const res = await fetch(`${API_BASE}/api/imoveis/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Erro ao atualizar');
+        const updated = await res.json();
+        setImoveis(prev => prev.map(im => im.id === editingId ? updated : im));
+        setMessage('Imóvel atualizado com sucesso!');
+        cancelarEdicao();
+      } else {
+        const res = await fetch(`${API_BASE}/api/imoveis`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Erro ao salvar');
+        const saved = await res.json();
+        setImoveis(prev => [...prev, saved]);
+        setMessage('Imóvel cadastrado com sucesso!');
+        setForm({
+          foto: '',
+          cidade_estado: '',
+          endereco: '',
+          tamanho_m2: '',
+          quartos: '',
+          banheiros: '',
+          preco: '',
+          data_leilao: '',
+          latitude: '',
+          longitude: ''
+        });
       }
-      const saved = await res.json();
-      setImoveis(prev => [...prev, saved]);
-      setMessage('Imóvel cadastrado com sucesso!');
-      setForm({ foto: '', cidade_estado: '', endereco: '', tamanho_m2: '', quartos: '', banheiros: '', preco: '', data_leilao: '', latitude: '', longitude: '' });
     } catch (err) {
       console.error(err);
       setMessage(String(err.message));
@@ -78,20 +142,113 @@ export default function Admin() {
     }
   }
 
+  async function deletarImovel(id) {
+    if (!confirm('Tem certeza que deseja deletar este imóvel?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/imoveis/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Erro ao deletar');
+      setImoveis(prev => prev.filter(im => im.id !== id));
+      setMessage('Imóvel deletado com sucesso!');
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao deletar imóvel');
+    }
+  }
+
   async function marcarComoLida(id) {
     try {
-      await fetch(`${API_BASE}/api/mensagens/${id}/lida`, {
-        method: 'PATCH'
-      });
-      setMensagens(prev => prev.map(m => 
-        m.id === id ? { ...m, lida: true } : m
-      ));
+      await fetch(`${API_BASE}/api/mensagens/${id}/lida`, { method: 'PATCH' });
+      setMensagens(prev => prev.map(m => m.id === id ? { ...m, lida: true } : m));
     } catch (err) {
       console.error('Erro ao marcar como lida:', err);
     }
   }
 
+  async function responderMensagem(id) {
+    const resposta = respostaTexto[id];
+    if (!resposta || !resposta.trim()) {
+      alert('Digite uma resposta');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/mensagens/${id}/responder`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resposta })
+      });
+      if (!res.ok) throw new Error('Erro ao responder');
+      const updated = await res.json();
+      setMensagens(prev => prev.map(m => m.id === id ? updated : m));
+      setRespostaTexto(prev => ({ ...prev, [id]: '' }));
+      setMostrarResposta(prev => ({ ...prev, [id]: false }));
+      
+      // Mostrar status do e-mail
+      if (updated.emailStatus) {
+        alert(updated.emailStatus);
+      } else {
+        alert('Resposta enviada com sucesso!');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao enviar resposta');
+    }
+  }
+
+  async function deletarMensagem(id) {
+    if (!confirm('Tem certeza que deseja deletar esta mensagem?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/mensagens/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Erro ao deletar');
+      setMensagens(prev => prev.filter(m => m.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao deletar mensagem');
+    }
+  }
+
+  function exportarMensagensCSV() {
+    const headers = ['ID', 'Nome', 'Email', 'Mensagem', 'Data', 'Lida', 'Resposta', 'Data Resposta'];
+    const rows = mensagens.map(m => [
+      m.id,
+      m.nome,
+      m.email,
+      `"${m.mensagem.replace(/"/g, '""')}"`,
+      new Date(m.data).toLocaleString('pt-BR'),
+      m.lida ? 'Sim' : 'Não',
+      m.resposta ? `"${m.resposta.replace(/"/g, '""')}"` : '',
+      m.dataResposta ? new Date(m.dataResposta).toLocaleString('pt-BR') : ''
+    ]);
+
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `mensagens_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+  }
+
   const mensagensNaoLidas = mensagens.filter(m => !m.lida).length;
+  const mensagensFiltradas = mensagens.filter(m => {
+    if (filtroMensagens === 'lidas') return m.lida;
+    if (filtroMensagens === 'nao-lidas') return !m.lida;
+    return true;
+  });
+
+  const totalImoveis = imoveis.length;
+  const totalMensagens = mensagens.length;
+  const mensagensRespondidas = mensagens.filter(m => m.resposta).length;
+  
+  const imoveisPorCidade = imoveis.reduce((acc, im) => {
+    acc[im.cidade_estado] = (acc[im.cidade_estado] || 0) + 1;
+    return acc;
+  }, {});
+
+  const mensagensPorMes = mensagens.reduce((acc, m) => {
+    const mes = new Date(m.data).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
+    acc[mes] = (acc[mes] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <>
@@ -113,8 +270,17 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Tabs */}
         <div className="flex border-b border-[#11397a]/20 mb-6">
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`px-6 py-3 font-bold transition-colors ${
+              activeTab === 'dashboard'
+                ? 'text-[#11397a] border-b-2 border-[#11397a]'
+                : 'text-[#11397a]/50 hover:text-[#11397a]'
+            }`}
+          >
+            📊 Dashboard
+          </button>
           <button
             onClick={() => setActiveTab('imoveis')}
             className={`px-6 py-3 font-bold transition-colors ${
@@ -123,7 +289,7 @@ export default function Admin() {
                 : 'text-[#11397a]/50 hover:text-[#11397a]'
             }`}
           >
-            Imóveis
+            🏠 Imóveis ({totalImoveis})
           </button>
           <button
             onClick={() => setActiveTab('mensagens')}
@@ -133,7 +299,7 @@ export default function Admin() {
                 : 'text-[#11397a]/50 hover:text-[#11397a]'
             }`}
           >
-            Mensagens de Contato
+            💬 Mensagens ({totalMensagens})
             {mensagensNaoLidas > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {mensagensNaoLidas}
@@ -142,52 +308,174 @@ export default function Admin() {
           </button>
         </div>
 
+        {activeTab === 'dashboard' && (
+          <div className="space-y-8">
+            <h2 className="text-2xl font-bold text-[#11397a]">Estatísticas Gerais</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="bg-gradient-to-br from-[#11397a] to-[#0e2f68] rounded-2xl p-6 text-white shadow-lg">
+                <div className="text-4xl mb-2">🏠</div>
+                <div className="text-3xl font-bold mb-1">{totalImoveis}</div>
+                <div className="text-white/80">Imóveis Cadastrados</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#e6b952] to-[#d4a842] rounded-2xl p-6 text-[#11397a] shadow-lg">
+                <div className="text-4xl mb-2">💬</div>
+                <div className="text-3xl font-bold mb-1">{totalMensagens}</div>
+                <div className="text-[#11397a]/80">Mensagens Recebidas</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
+                <div className="text-4xl mb-2">✅</div>
+                <div className="text-3xl font-bold mb-1">{mensagensRespondidas}</div>
+                <div className="text-white/80">Mensagens Respondidas</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg">
+                <div className="text-4xl mb-2">🔔</div>
+                <div className="text-3xl font-bold mb-1">{mensagensNaoLidas}</div>
+                <div className="text-white/80">Não Lidas</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-2xl p-6 border-2 border-[#11397a]/10 shadow-md">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4">📍 Imóveis por Cidade</h3>
+                <div className="space-y-3">
+                  {Object.entries(imoveisPorCidade).slice(0, 8).map(([cidade, count]) => (
+                    <div key={cidade}>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-[#11397a] font-semibold">{cidade}</span>
+                        <span className="text-[#11397a]/70">{count}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-[#11397a] h-2 rounded-full"
+                          style={{ width: `${(count / totalImoveis) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 border-2 border-[#11397a]/10 shadow-md">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4">📅 Mensagens por Mês</h3>
+                <div className="space-y-3">
+                  {Object.entries(mensagensPorMes).slice(-6).map(([mes, count]) => (
+                    <div key={mes}>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-[#11397a] font-semibold capitalize">{mes}</span>
+                        <span className="text-[#11397a]/70">{count}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-[#e6b952] h-2 rounded-full"
+                          style={{ width: `${(count / totalMensagens) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'imoveis' && (
           <>
-            <h2 className="text-xl font-bold text-[#11397a] mb-4">Cadastrar novo imóvel</h2>
-            {message && <div className="mb-4 text-sm text-[#11397a] font-semibold">{message}</div>}
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-          <input name="foto" value={form.foto} onChange={handleChange} placeholder="foto (caminho)" className="px-3 py-2 border rounded" />
-          <input name="cidade_estado" value={form.cidade_estado} onChange={handleChange} placeholder="Cidade/UF" className="px-3 py-2 border rounded" />
-          <input name="endereco" value={form.endereco} onChange={handleChange} placeholder="Endereço" className="px-3 py-2 border rounded" />
-          <div className="grid grid-cols-3 gap-2">
-            <input name="tamanho_m2" value={form.tamanho_m2} onChange={handleChange} placeholder="m²" className="px-3 py-2 border rounded" />
-            <input name="quartos" value={form.quartos} onChange={handleChange} placeholder="Quartos" className="px-3 py-2 border rounded" />
-            <input name="banheiros" value={form.banheiros} onChange={handleChange} placeholder="Banheiros" className="px-3 py-2 border rounded" />
-          </div>
-          <input name="preco" value={form.preco} onChange={handleChange} placeholder="Preço (somente número)" className="px-3 py-2 border rounded" />
-          <input name="data_leilao" value={form.data_leilao} onChange={handleChange} placeholder="Data do leilão (YYYY-MM-DD)" className="px-3 py-2 border rounded" />
-          <div className="grid grid-cols-2 gap-2">
-            <input name="latitude" value={form.latitude} onChange={handleChange} placeholder="Latitude" className="px-3 py-2 border rounded" />
-            <input name="longitude" value={form.longitude} onChange={handleChange} placeholder="Longitude" className="px-3 py-2 border rounded" />
-          </div>
-          <button className="bg-[#11397a] text-white px-4 py-2 rounded" disabled={loading}>{loading ? 'Salvando...' : 'Salvar imóvel'}</button>
-        </form>
-
-        <section className="mt-8">
-          <h2 className="text-xl font-bold text-[#11397a] mb-4">Imóveis cadastrados</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {imoveis.map((im, idx) => (
-              <div key={idx} className="border p-3 rounded">
-                <div className="text-sm font-semibold text-[#11397a]">{im.cidade_estado} — {im.endereco}</div>
-                <div className="text-sm">{im.tamanho_m2} m² • {im.quartos} quartos • R$ {im.preco}</div>
+            <h2 className="text-xl font-bold text-[#11397a] mb-4">
+              {editingId ? 'Editar Imóvel' : 'Cadastrar Novo Imóvel'}
+            </h2>
+            {message && (
+              <div className={`mb-4 p-3 rounded ${message.includes('sucesso') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                {message}
               </div>
-            ))}
-          </div>
-        </section>
+            )}
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 bg-white p-6 rounded-lg border-2 border-[#11397a]/10">
+              <input name="foto" value={form.foto} onChange={handleChange} placeholder="Caminho da foto (ex: imagens/imoveis/foto.jpg)" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              <input name="cidade_estado" value={form.cidade_estado} onChange={handleChange} placeholder="Cidade/UF (ex: São Paulo/SP)" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              <input name="endereco" value={form.endereco} onChange={handleChange} placeholder="Endereço completo" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              <div className="grid grid-cols-3 gap-2">
+                <input type="number" name="tamanho_m2" value={form.tamanho_m2} onChange={handleChange} placeholder="m²" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+                <input type="number" name="quartos" value={form.quartos} onChange={handleChange} placeholder="Quartos" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+                <input type="number" name="banheiros" value={form.banheiros} onChange={handleChange} placeholder="Banheiros" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              </div>
+              <input type="number" name="preco" value={form.preco} onChange={handleChange} placeholder="Preço (somente números)" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              <input type="date" name="data_leilao" value={form.data_leilao} onChange={handleChange} className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              <div className="grid grid-cols-2 gap-2">
+                <input type="number" step="any" name="latitude" value={form.latitude} onChange={handleChange} placeholder="Latitude (ex: -23.5505)" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+                <input type="number" step="any" name="longitude" value={form.longitude} onChange={handleChange} placeholder="Longitude (ex: -46.6333)" className="px-3 py-2 border rounded focus:outline-none focus:border-[#11397a]" required />
+              </div>
+              <div className="flex gap-2">
+                <button type="submit" className="flex-1 bg-[#11397a] text-white px-4 py-3 rounded-lg font-bold hover:bg-[#0e2f68] transition-colors" disabled={loading}>
+                  {loading ? 'Salvando...' : editingId ? '💾 Atualizar Imóvel' : '➕ Cadastrar Imóvel'}
+                </button>
+                {editingId && (
+                  <button type="button" onClick={cancelarEdicao} className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            </form>
+
+            <section className="mt-8">
+              <h2 className="text-xl font-bold text-[#11397a] mb-4">Imóveis Cadastrados ({totalImoveis})</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {imoveis.map((im) => (
+                  <div key={im.id} className="border-2 border-[#11397a]/20 p-4 rounded-lg bg-white hover:shadow-lg transition-shadow">
+                    <div className="aspect-video bg-gray-200 rounded mb-3 overflow-hidden">
+                      <img src={`/data/${im.foto}`} alt={im.cidade_estado} className="w-full h-full object-cover" onError={(e) => e.target.src = 'https://via.placeholder.com/400x300?text=Imagem'} />
+                    </div>
+                    <div className="text-sm font-semibold text-[#11397a]">{im.cidade_estado}</div>
+                    <div className="text-xs text-[#11397a]/70 mb-2">{im.endereco}</div>
+                    <div className="text-sm text-[#11397a]">{im.tamanho_m2} m² • {im.quartos} quartos • {im.banheiros} banheiros</div>
+                    <div className="text-lg font-bold text-[#11397a] mt-2">R$ {im.preco?.toLocaleString('pt-BR')}</div>
+                    <div className="flex gap-2 mt-3">
+                      <button onClick={() => iniciarEdicao(im)} className="flex-1 bg-blue-600 text-white px-3 py-2 rounded text-sm font-bold hover:bg-blue-700 transition-colors">
+                        ✏️ Editar
+                      </button>
+                      <button onClick={() => deletarImovel(im.id)} className="flex-1 bg-red-600 text-white px-3 py-2 rounded text-sm font-bold hover:bg-red-700 transition-colors">
+                        🗑️ Deletar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           </>
         )}
 
         {activeTab === 'mensagens' && (
           <div>
-            <h2 className="text-xl font-bold text-[#11397a] mb-4">
-              Mensagens de Contato ({mensagens.length})
-            </h2>
-            {mensagens.length === 0 ? (
-              <p className="text-[#11397a]/60 text-center py-8">Nenhuma mensagem recebida ainda.</p>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-[#11397a]">
+                Mensagens de Contato ({mensagensFiltradas.length})
+              </h2>
+              <div className="flex gap-3">
+                <select
+                  value={filtroMensagens}
+                  onChange={(e) => setFiltroMensagens(e.target.value)}
+                  className="px-4 py-2 border-2 border-[#11397a]/20 rounded-lg font-semibold text-[#11397a] focus:outline-none focus:border-[#11397a]"
+                >
+                  <option value="todas">Todas</option>
+                  <option value="nao-lidas">Não Lidas ({mensagensNaoLidas})</option>
+                  <option value="lidas">Lidas ({totalMensagens - mensagensNaoLidas})</option>
+                </select>
+                <button
+                  onClick={exportarMensagensCSV}
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition-colors"
+                >
+                  📥 Exportar CSV
+                </button>
+              </div>
+            </div>
+
+            {mensagensFiltradas.length === 0 ? (
+              <p className="text-[#11397a]/60 text-center py-8">Nenhuma mensagem para exibir.</p>
             ) : (
               <div className="space-y-4">
-                {mensagens.sort((a, b) => new Date(b.data) - new Date(a.data)).map((msg) => (
+                {mensagensFiltradas.sort((a, b) => new Date(b.data) - new Date(a.data)).map((msg) => (
                   <div
                     key={msg.id}
                     className={`border-2 rounded-lg p-4 ${
@@ -201,24 +489,76 @@ export default function Admin() {
                         <h3 className="font-bold text-[#11397a] text-lg">{msg.nome}</h3>
                         <p className="text-sm text-[#11397a]/70">{msg.email}</p>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right flex flex-col gap-2">
                         <p className="text-xs text-[#11397a]/60">
                           {new Date(msg.data).toLocaleString('pt-BR')}
                         </p>
                         {!msg.lida && (
                           <button
                             onClick={() => marcarComoLida(msg.id)}
-                            className="mt-2 text-xs bg-[#11397a] text-white px-3 py-1 rounded hover:bg-[#0e2f68] transition-colors"
+                            className="text-xs bg-[#11397a] text-white px-3 py-1 rounded hover:bg-[#0e2f68] transition-colors"
                           >
                             Marcar como lida
                           </button>
                         )}
+                        <button
+                          onClick={() => deletarMensagem(msg.id)}
+                          className="text-xs bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors"
+                        >
+                          🗑️ Deletar
+                        </button>
                       </div>
                     </div>
-                    <div className="bg-white p-3 rounded border border-[#11397a]/20">
+
+                    <div className="bg-white p-3 rounded border border-[#11397a]/20 mb-3">
                       <p className="text-[#11397a] whitespace-pre-wrap">{msg.mensagem}</p>
                     </div>
-                    {msg.lida && (
+
+                    {msg.resposta ? (
+                      <div className="bg-green-50 border border-green-200 p-3 rounded">
+                        <div className="text-xs text-green-700 font-bold mb-1">
+                          ✅ Respondida em {new Date(msg.dataResposta).toLocaleString('pt-BR')}
+                        </div>
+                        <p className="text-green-900 whitespace-pre-wrap">{msg.resposta}</p>
+                      </div>
+                    ) : (
+                      <div>
+                        {!mostrarResposta[msg.id] ? (
+                          <button
+                            onClick={() => setMostrarResposta(prev => ({ ...prev, [msg.id]: true }))}
+                            className="bg-[#e6b952] text-[#11397a] px-4 py-2 rounded font-bold hover:bg-[#d4a842] transition-colors text-sm"
+                          >
+                            ✉️ Responder
+                          </button>
+                        ) : (
+                          <div className="space-y-2">
+                            <textarea
+                              value={respostaTexto[msg.id] || ''}
+                              onChange={(e) => setRespostaTexto(prev => ({ ...prev, [msg.id]: e.target.value }))}
+                              placeholder="Digite sua resposta..."
+                              className="w-full px-3 py-2 border-2 border-[#11397a]/20 rounded-lg focus:outline-none focus:border-[#11397a]"
+                              rows={4}
+                            />
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => responderMensagem(msg.id)}
+                                className="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors text-sm"
+                              >
+                                📤 Enviar Resposta
+                              </button>
+                              <button
+                                onClick={() => setMostrarResposta(prev => ({ ...prev, [msg.id]: false }))}
+                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-400 transition-colors text-sm"
+                              >
+                                Cancelar
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {msg.lida && !msg.resposta && (
                       <p className="text-xs text-green-600 mt-2">✓ Lida</p>
                     )}
                   </div>
