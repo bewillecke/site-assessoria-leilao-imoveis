@@ -6,9 +6,11 @@ import Footer from "../components/Footer";
 import Comparador from "../components/Comparador";
 import { BRL, formatDateBR } from "../utils/formatters";
 import MapImoveis from '../components/MapImoveis';
+import { useFavoritos } from '../contexts/FavoritosContext';
 
 export default function Oportunidades() {
   const [searchParams] = useSearchParams();
+  const { toggleFavorito, isFavorito } = useFavoritos();
   const [imoveis, setImoveis] = useState([]);
   const [precoMin, setPrecoMin] = useState(10000);
   const [precoMax, setPrecoMax] = useState(500000);
@@ -324,6 +326,21 @@ export default function Oportunidades() {
                   id={`imovel-${imovel.id}`}
                   className="flex flex-col bg-white border-2 border-[#11397a] rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden relative"
                 >
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavorito(imovel);
+                    }}
+                    className={`absolute top-3 left-3 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                      isFavorito(imovel.id)
+                        ? 'bg-red-500 text-white'
+                        : 'bg-white text-gray-400 hover:bg-red-100 hover:text-red-500'
+                    }`}
+                    title={isFavorito(imovel.id) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                  >
+                    ❤️
+                  </button>
+                  
                   <button
                     onClick={(e) => {
                       e.preventDefault();

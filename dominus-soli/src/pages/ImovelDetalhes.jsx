@@ -4,14 +4,18 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import CalculadoraViabilidade from "../components/CalculadoraViabilidade";
 import { BRL, formatDateBR } from "../utils/formatters";
+import { useFavoritos } from "../contexts/FavoritosContext";
 
 export default function ImovelDetalhes() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toggleFavorito, isFavorito } = useFavoritos();
   const [imovel, setImovel] = useState(null);
   const [imoveisSimilares, setImoveisSimilares] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mostrarCalculadora, setMostrarCalculadora] = useState(false);
 
   useEffect(() => {
     fetch("/imoveis.json")
@@ -114,7 +118,18 @@ export default function ImovelDetalhes() {
 
             <div className="mt-6">
               <h3 className="text-[#11397a] font-bold mb-3">Compartilhar este imóvel:</h3>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => toggleFavorito(imovel)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                    isFavorito(imovel.id)
+                      ? 'bg-red-500 text-white hover:bg-red-600'
+                      : 'bg-white text-gray-600 border-2 border-gray-300 hover:bg-red-50 hover:text-red-500 hover:border-red-300'
+                  }`}
+                >
+                  <span className="text-xl">❤️</span>
+                  {isFavorito(imovel.id) ? 'Remover favorito' : 'Adicionar favorito'}
+                </button>
                 <button
                   onClick={() => compartilhar("whatsapp")}
                   className="flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-lg hover:bg-[#1fb855] transition-colors"
@@ -194,6 +209,13 @@ export default function ImovelDetalhes() {
                 >
                   Solicitar Assessoria
                 </Link>
+                <button
+                  onClick={() => setMostrarCalculadora(true)}
+                  className="w-full bg-gradient-to-r from-[#11397a] to-[#1e5bb8] text-white font-bold py-4 px-6 rounded-lg hover:from-[#0e2f68] hover:to-[#164a9f] transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  <span className="text-xl">📊</span>
+                  Calcular Viabilidade do Investimento
+                </button>
                 <button
                   onClick={() => window.print()}
                   className="w-full bg-white border-2 border-[#11397a] text-[#11397a] font-bold px-6 py-3 rounded-lg hover:bg-[#11397a] hover:text-white transition-colors"
@@ -309,6 +331,13 @@ export default function ImovelDetalhes() {
           </div>
         )}
       </main>
+
+      {mostrarCalculadora && (
+        <CalculadoraViabilidade 
+          imovel={imovel}
+          onClose={() => setMostrarCalculadora(false)}
+        />
+      )}
 
       <Footer />
     </>

@@ -1,9 +1,11 @@
 import "../index.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useFavoritos } from "../contexts/FavoritosContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { totalFavoritos } = useFavoritos();
 
   return (
     <nav className="sticky top-0 z-20 bg-[#e6b952] border-y border-slate-200">
@@ -12,6 +14,15 @@ export default function Navbar() {
           <Link to="/" className="nav-underline text-[#11397a]">HOME</Link>
           <Link to="/quem-somos" className="nav-underline text-[#11397a]">QUEM SOMOS</Link>
           <Link to="/oportunidades" className="nav-underline text-[#11397a]">OPORTUNIDADES</Link>
+          <Link to="/favoritos" className="nav-underline text-[#11397a] relative">
+            FAVORITOS
+            {totalFavoritos > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {totalFavoritos}
+              </span>
+            )}
+          </Link>
+          <Link to="/simulacoes" className="nav-underline text-[#11397a]">SIMULAÇÕES</Link>
           <Link to="/contato" className="nav-underline text-[#11397a]">CONTATOS</Link>
         </div>
 
@@ -54,6 +65,25 @@ export default function Navbar() {
               className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors"
             >
               OPORTUNIDADES
+            </Link>
+            <Link
+              to="/favoritos"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors relative"
+            >
+              FAVORITOS
+              {totalFavoritos > 0 && (
+                <span className="absolute top-2 right-4 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {totalFavoritos}
+                </span>
+              )}
+            </Link>
+            <Link
+              to="/simulacoes"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors"
+            >
+              SIMULAÇÕES
             </Link>
             <Link
               to="/contato"
