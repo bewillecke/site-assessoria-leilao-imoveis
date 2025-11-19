@@ -70,17 +70,17 @@ export default function Home() {
       <Header />
       <Navbar />
 
-      <section className="bg-gradient-to-b from-[#11397a]/5 to-white py-12">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[#11397a] text-3xl font-extrabold text-center mb-3">
+      <section className="bg-gradient-to-b from-[#11397a]/5 to-white py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-[#11397a] text-2xl sm:text-3xl font-extrabold text-center mb-3">
             Encontre seu Imóvel em Leilão
           </h2>
-          <p className="text-[#11397a]/70 text-center mb-8">
+          <p className="text-[#11397a]/70 text-center mb-6 sm:mb-8 text-sm sm:text-base">
             Busque imóveis com até 50% de desconto em relação ao mercado
           </p>
           
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-[#11397a]/10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-[#11397a]/10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-4">
               <div className="relative" ref={cidadeDropdownRef}>
                 <label className="text-[#11397a] font-bold mb-2 block">
                   🏙️ Cidade/Estado
@@ -138,48 +138,48 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-[#11397a] text-3xl font-extrabold text-center mb-4">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-[#11397a] text-2xl sm:text-3xl font-extrabold text-center mb-3 sm:mb-4">
             Por que Investir em Leilões de Imóveis?
           </h2>
-          <p className="text-[#11397a]/70 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-[#11397a]/70 text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
             Descubra as vantagens de adquirir imóveis através de leilões judiciais e extrajudiciais
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-              <div className="w-16 h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-6 sm:p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-2xl sm:text-3xl mb-3 sm:mb-4 mx-auto">
                 💰
               </div>
-              <h3 className="text-[#11397a] text-xl font-bold text-center mb-3">
+              <h3 className="text-[#11397a] text-lg sm:text-xl font-bold text-center mb-2 sm:mb-3">
                 Descontos de até 50%
               </h3>
-              <p className="text-[#11397a]/80 text-center leading-relaxed">
+              <p className="text-[#11397a]/80 text-center leading-relaxed text-sm sm:text-base">
                 Imóveis em leilão são vendidos abaixo do valor de mercado, oferecendo excelente oportunidade de investimento com alto potencial de rentabilidade.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-              <div className="w-16 h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
+            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-6 sm:p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-2xl sm:text-3xl mb-3 sm:mb-4 mx-auto">
                 🛡️
               </div>
-              <h3 className="text-[#11397a] text-xl font-bold text-center mb-3">
+              <h3 className="text-[#11397a] text-lg sm:text-xl font-bold text-center mb-2 sm:mb-3">
                 Segurança Jurídica
               </h3>
-              <p className="text-[#11397a]/80 text-center leading-relaxed">
+              <p className="text-[#11397a]/80 text-center leading-relaxed text-sm sm:text-base">
                 Processos regulados pela Justiça garantem transparência e segurança. Nossa equipe analisa toda documentação para evitar problemas futuros.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-              <div className="w-16 h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
+            <div className="bg-gradient-to-br from-[#11397a]/5 to-white rounded-2xl p-6 sm:p-8 border-2 border-[#11397a]/10 hover:border-[#e6b952] transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#e6b952] rounded-full flex items-center justify-center text-2xl sm:text-3xl mb-3 sm:mb-4 mx-auto">
                 🎯
               </div>
-              <h3 className="text-[#11397a] text-xl font-bold text-center mb-3">
+              <h3 className="text-[#11397a] text-lg sm:text-xl font-bold text-center mb-2 sm:mb-3">
                 Menos Concorrência
               </h3>
-              <p className="text-[#11397a]/80 text-center leading-relaxed">
+              <p className="text-[#11397a]/80 text-center leading-relaxed text-sm sm:text-base">
                 Muitos investidores têm receio de leilões. Com nossa assessoria especializada, você tem vantagem competitiva e acesso a oportunidades únicas.
               </p>
             </div>
@@ -187,55 +187,57 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-b from-[#11397a] to-[#0e2f68]">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-white text-3xl font-extrabold text-center mb-12">
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-[#11397a] to-[#0e2f68]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-white text-2xl sm:text-3xl font-extrabold text-center mb-8 sm:mb-12">
             Resultados que Comprovam Nossa Experiência
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
             <div className="text-center">
-              <div className="text-5xl font-extrabold text-[#e6b952] mb-2">150+</div>
-              <div className="text-white/90 font-semibold">Imóveis Assessorados</div>
+              <div className="text-3xl sm:text-5xl font-extrabold text-[#e6b952] mb-1 sm:mb-2">150+</div>
+              <div className="text-white/90 font-semibold text-sm sm:text-base">Imóveis Assessorados</div>
             </div>
             
             <div className="text-center">
-              <div className="text-5xl font-extrabold text-[#e6b952] mb-2">98%</div>
-              <div className="text-white/90 font-semibold">Clientes Satisfeitos</div>
+              <div className="text-3xl sm:text-5xl font-extrabold text-[#e6b952] mb-1 sm:mb-2">98%</div>
+              <div className="text-white/90 font-semibold text-sm sm:text-base">Clientes Satisfeitos</div>
             </div>
             
             <div className="text-center">
-              <div className="text-5xl font-extrabold text-[#e6b952] mb-2">5+</div>
-              <div className="text-white/90 font-semibold">Anos de Experiência</div>
+              <div className="text-3xl sm:text-5xl font-extrabold text-[#e6b952] mb-1 sm:mb-2">5+</div>
+              <div className="text-white/90 font-semibold text-sm sm:text-base">Anos de Experiência</div>
             </div>
             
             <div className="text-center">
-              <div className="text-5xl font-extrabold text-[#e6b952] mb-2">R$ 45M</div>
-              <div className="text-white/90 font-semibold">Em Negócios Realizados</div>
+              <div className="text-3xl sm:text-5xl font-extrabold text-[#e6b952] mb-1 sm:mb-2">R$ 45M</div>
+              <div className="text-white/90 font-semibold text-sm sm:text-base">Em Negócios Realizados</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mt-12">
-        <h2 className="text-[#11397a] text-[2rem] font-extrabold ml-8 mb-4">
-          Imóveis em Destaque
-        </h2>
+      <section className="mt-8 sm:mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 className="text-[#11397a] text-xl sm:text-2xl lg:text-[2rem] font-extrabold mb-10 text-center">
+            Imóveis em Destaque
+          </h2>
+        </div>
         <div className="pb-0 mb-0">
           <Carousel items={imoveis} />
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-[#11397a] text-3xl font-extrabold text-center mb-4">
+      <section className="py-12 sm:py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-[#11397a] text-2xl sm:text-3xl font-extrabold text-center mb-3 sm:mb-4">
             Como Funciona Nossa Assessoria
           </h2>
-          <p className="text-[#11397a]/70 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-[#11397a]/70 text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
             Acompanhamos você em cada etapa do processo de aquisição
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div className="relative">
               <div className="bg-[#11397a] text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto">
                 1
@@ -291,60 +293,60 @@ export default function Home() {
         <About />
       </div>
 
-      <section className="py-16 bg-gradient-to-b from-[#11397a]/5 to-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-[#11397a] text-3xl font-extrabold text-center mb-4">
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-[#11397a]/5 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-[#11397a] text-2xl sm:text-3xl font-extrabold text-center mb-3 sm:mb-4">
             O Que Nossos Clientes Dizem
           </h2>
-          <p className="text-[#11397a]/70 text-center mb-12 max-w-2xl mx-auto">
+          <p className="text-[#11397a]/70 text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
             Histórias reais de quem confiou na Dominus Soli
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#11397a]/10">
-              <div className="text-[#e6b952] text-3xl mb-3">★★★★★</div>
-              <p className="text-[#11397a] italic mb-4 leading-relaxed">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border-2 border-[#11397a]/10">
+              <div className="text-[#e6b952] text-2xl sm:text-3xl mb-2 sm:mb-3">★★★★★</div>
+              <p className="text-[#11397a] italic mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
                 "Consegui um apartamento em Copacabana por 40% abaixo do valor de mercado. A equipe foi essencial em todo o processo!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
                   MC
                 </div>
                 <div>
-                  <div className="text-[#11397a] font-bold">Marcos Costa</div>
-                  <div className="text-[#11397a]/60 text-sm">Investidor - RJ</div>
+                  <div className="text-[#11397a] font-bold text-sm sm:text-base">Marcos Costa</div>
+                  <div className="text-[#11397a]/60 text-xs sm:text-sm">Investidor - RJ</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#11397a]/10">
-              <div className="text-[#e6b952] text-3xl mb-3">★★★★★</div>
-              <p className="text-[#11397a] italic mb-4 leading-relaxed">
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border-2 border-[#11397a]/10">
+              <div className="text-[#e6b952] text-2xl sm:text-3xl mb-2 sm:mb-3">★★★★★</div>
+              <p className="text-[#11397a] italic mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
                 "Profissionais extremamente competentes. Me deram toda segurança jurídica que eu precisava para investir em leilões."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
                   AS
                 </div>
                 <div>
-                  <div className="text-[#11397a] font-bold">Ana Silva</div>
-                  <div className="text-[#11397a]/60 text-sm">Empresária - SP</div>
+                  <div className="text-[#11397a] font-bold text-sm sm:text-base">Ana Silva</div>
+                  <div className="text-[#11397a]/60 text-xs sm:text-sm">Empresária - SP</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#11397a]/10">
-              <div className="text-[#e6b952] text-3xl mb-3">★★★★★</div>
-              <p className="text-[#11397a] italic mb-4 leading-relaxed">
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border-2 border-[#11397a]/10">
+              <div className="text-[#e6b952] text-2xl sm:text-3xl mb-2 sm:mb-3">★★★★★</div>
+              <p className="text-[#11397a] italic mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
                 "Assessoria impecável! Comprei minha primeira casa através de leilão e foi muito mais fácil do que imaginava."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#11397a] rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base">
                   RF
                 </div>
                 <div>
-                  <div className="text-[#11397a] font-bold">Roberto Fonseca</div>
-                  <div className="text-[#11397a]/60 text-sm">Engenheiro - MG</div>
+                  <div className="text-[#11397a] font-bold text-sm sm:text-base">Roberto Fonseca</div>
+                  <div className="text-[#11397a]/60 text-xs sm:text-sm">Engenheiro - MG</div>
                 </div>
               </div>
             </div>
@@ -352,25 +354,25 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-r from-[#11397a] to-[#0e2f68]">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-white text-3xl font-extrabold mb-4">
+      <section className="py-12 sm:py-16 bg-gradient-to-r from-[#11397a] to-[#0e2f68]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl font-extrabold mb-3 sm:mb-4">
             Pronto para Encontrar sua Oportunidade?
           </h2>
-          <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto">
             Entre em contato conosco e descubra como podemos ajudá-lo a conquistar o imóvel dos seus sonhos com segurança e economia.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <button
               onClick={() => navigate('/oportunidades')}
-              className="bg-[#e6b952] text-[#11397a] font-bold text-lg px-8 py-4 rounded-lg hover:bg-[#d4a842] transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+              className="bg-[#e6b952] text-[#11397a] font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#d4a842] transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
             >
               Ver Oportunidades
             </button>
             <button
               onClick={() => navigate('/contato')}
-              className="bg-white text-[#11397a] font-bold text-lg px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+              className="bg-white text-[#11397a] font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
             >
               Falar com Especialista
             </button>

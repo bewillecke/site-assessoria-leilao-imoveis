@@ -12,9 +12,10 @@ import 'leaflet/dist/leaflet.css';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
+    <div className="overflow-x-hidden w-full">
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quem-somos" element={<QuemSomos />} />
           <Route path="/oportunidades" element={<Oportunidades />} />
@@ -29,5 +30,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </div>
   );
 }

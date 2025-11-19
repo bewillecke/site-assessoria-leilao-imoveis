@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+body {
+	overflow-x: hidden;
+	max-width: 100vw;
+}
+
 .social-icon-instagram {
 	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
 	transition: filter 0.2s;

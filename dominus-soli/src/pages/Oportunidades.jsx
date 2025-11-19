@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Comparador from "../components/Comparador";
 import { BRL, formatDateBR } from "../utils/formatters";
 import MapImoveis from '../components/MapImoveis';
 
@@ -17,6 +18,8 @@ export default function Oportunidades() {
   const [quartos, setQuartos] = useState("");
   const [banheiros, setBanheiros] = useState("");
   const [cidadeDropdownOpen, setCidadeDropdownOpen] = useState(false);
+  const [imoveisParaComparar, setImoveisParaComparar] = useState([]);
+  const [mostrarComparador, setMostrarComparador] = useState(false);
   const cidadeDropdownRef = useRef(null);
 
   const MIN_GAP_PRECO = 5000;
@@ -112,6 +115,41 @@ export default function Oportunidades() {
     setBanheiros("");
   };
 
+  const toggleComparar = (imovel) => {
+    setImoveisParaComparar(prev => {
+      const existe = prev.find(i => i.id === imovel.id);
+      if (existe) {
+        return prev.filter(i => i.id !== imovel.id);
+      }
+      if (prev.length >= 3) {
+        alert('Você pode comparar no máximo 3 imóveis por vez');
+        return prev;
+      }
+      return [...prev, imovel];
+    });
+  };
+
+  const estaNoComparador = (imovelId) => {
+    return imoveisParaComparar.some(i => i.id === imovelId);
+  };
+
+  const abrirComparador = () => {
+    if (imoveisParaComparar.length === 0) {
+      alert('Selecione pelo menos 1 imóvel para comparar');
+      return;
+    }
+    setMostrarComparador(true);
+  };
+
+  const fecharComparador = () => {
+    setMostrarComparador(false);
+  };
+
+  const limparComparacao = () => {
+    setImoveisParaComparar([]);
+    setMostrarComparador(false);
+  };
+
   const cidadesFiltered = cidades.filter((c) =>
     c.toLowerCase().includes(cidade.toLowerCase())
   );
@@ -121,13 +159,26 @@ export default function Oportunidades() {
       <Header />
       <Navbar />
 
-      <section className="bg-white py-8">
-        <div className="grid grid-cols-5 gap-5 mx-16 mb-6 max-w-7xl mx-auto px-4 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-1">
-          <div className="flex flex-col">
-            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
-              <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">💲</span>
-              Preço
-            </label>
+      <section className="bg-white py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {imoveisParaComparar.length > 0 && (
+            <div className="fixed bottom-4 right-4 z-40">
+              <button
+                onClick={abrirComparador}
+                className="bg-[#e6b952] text-[#11397a] font-bold px-4 sm:px-6 py-3 sm:py-4 rounded-full shadow-2xl hover:bg-[#d4a842] transition-all transform hover:scale-105 flex items-center gap-2"
+              >
+                <span className="text-lg sm:text-xl">🔄</span>
+                <span className="text-sm sm:text-base">Comparar ({imoveisParaComparar.length})</span>
+              </button>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 mb-6">
+            <div className="flex flex-col">
+              <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2 text-sm sm:text-base">
+                <span className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-xs sm:text-sm">💲</span>
+                Preço
+              </label>
             <input
               type="range"
               min="10000"
@@ -152,8 +203,8 @@ export default function Oportunidades() {
           </div>
 
           <div className="flex flex-col">
-            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
-              <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">📐</span>
+            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2 text-sm sm:text-base">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-xs sm:text-sm">📐</span>
               Metros²
             </label>
             <input
@@ -180,8 +231,8 @@ export default function Oportunidades() {
           </div>
 
           <div className="flex flex-col relative" ref={cidadeDropdownRef}>
-            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
-              <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">📍</span>
+            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2 text-sm sm:text-base">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-xs sm:text-sm">📍</span>
               Cidade/UF
             </label>
             <input
@@ -212,8 +263,8 @@ export default function Oportunidades() {
           </div>
 
           <div className="flex flex-col">
-            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
-              <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">🛏️</span>
+            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2 text-sm sm:text-base">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-xs sm:text-sm">🛏️</span>
               Quartos
             </label>
             <input
@@ -228,8 +279,8 @@ export default function Oportunidades() {
           </div>
 
           <div className="flex flex-col">
-            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2">
-              <span className="w-7 h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-sm">🚿</span>
+            <label className="flex items-center gap-2 text-[#11397a] font-bold mb-2 text-sm sm:text-base">
+              <span className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border-2 border-[#11397a] bg-blue-50 text-xs sm:text-sm">🚿</span>
               Banheiros
             </label>
             <input
@@ -244,57 +295,90 @@ export default function Oportunidades() {
           </div>
         </div>
 
-        <div className="flex justify-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
           <button
             onClick={handleLimparFiltros}
-            className="bg-[#11397a] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#0e2f68] transition-colors"
+            className="bg-[#11397a] text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-[#0e2f68] transition-colors text-sm sm:text-base"
           >
-            Limpar filtros
+            🔄 Limpar filtros
           </button>
+          {imoveisParaComparar.length > 0 && (
+            <button
+              onClick={abrirComparador}
+              className="bg-[#e6b952] text-[#11397a] font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-[#d4a842] transition-colors text-sm sm:text-base"
+            >
+              ⚖️ Comparar Selecionados ({imoveisParaComparar.length})
+            </button>
+          )}
+        </div>
         </div>
 
         <MapImoveis imoveis={filteredImoveis} />
 
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl w-full px-4 mb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             {filteredImoveis.length > 0 ? (
               filteredImoveis.map((imovel, idx) => (
-                <Link
+                <div
                   key={idx}
-                  to={`/imovel/${imovel.id}`}
-                  className="flex flex-col bg-white border-2 border-[#11397a] rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-600 overflow-hidden cursor-pointer"
+                  id={`imovel-${imovel.id}`}
+                  className="flex flex-col bg-white border-2 border-[#11397a] rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden relative"
                 >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={/^(http|\/)/.test(imovel.foto) ? imovel.foto : `/data/${imovel.foto}`}
-                      alt={imovel.cidade_estado}
-                      className="w-full h-full object-cover transition-transform duration-600 hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-[#11397a] text-2xl font-bold text-center mt-4 px-4">
-                    {BRL.format(Number(imovel.preco))}
-                  </h3>
-                  <p className="text-[#11397a] font-semibold mt-4 mx-4">{imovel.cidade_estado}</p>
-                  <p className="text-[#11397a] text-sm mx-4">
-                    {imovel.quartos} quarto(s) · {imovel.banheiros} banheiro(s)
-                  </p>
-                  <p className="text-[#11397a] text-sm mx-4">{imovel.tamanho_m2} m²</p>
-                  <p className="text-[#11397a] text-sm mx-4">
-                    Data do leilão: {formatDateBR(imovel.data_leilao)}
-                  </p>
-                  <button className="mx-4 mt-4 mb-4 bg-[#e6b952] text-[#11397a] font-bold py-2 rounded-lg hover:bg-[#d4a842] transition-colors">
-                    Ver Detalhes
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleComparar(imovel);
+                    }}
+                    className={`absolute top-3 right-3 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold shadow-lg transition-all ${
+                      estaNoComparador(imovel.id)
+                        ? 'bg-[#e6b952] text-[#11397a]'
+                        : 'bg-white text-[#11397a] hover:bg-[#e6b952]'
+                    }`}
+                    title={estaNoComparador(imovel.id) ? 'Remover da comparação' : 'Adicionar para comparar'}
+                  >
+                    {estaNoComparador(imovel.id) ? '✓' : '+'}
                   </button>
-                </Link>
+
+                  <Link to={`/imovel/${imovel.id}`} className="flex flex-col flex-1">
+                    <div className="aspect-video sm:aspect-square overflow-hidden">
+                      <img
+                        src={/^(http|\/)/.test(imovel.foto) ? imovel.foto : `/data/${imovel.foto}`}
+                        alt={imovel.cidade_estado}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                    <h3 className="text-[#11397a] text-xl sm:text-2xl font-bold text-center mt-3 sm:mt-4 px-4">
+                      {BRL.format(Number(imovel.preco))}
+                    </h3>
+                    <p className="text-[#11397a] font-semibold mt-2 sm:mt-4 mx-4 text-sm sm:text-base">{imovel.cidade_estado}</p>
+                    <p className="text-[#11397a] text-xs sm:text-sm mx-4 mt-1">
+                      {imovel.quartos} quarto(s) · {imovel.banheiros} banheiro(s)
+                    </p>
+                    <p className="text-[#11397a] text-xs sm:text-sm mx-4">{imovel.tamanho_m2} m²</p>
+                    <p className="text-[#11397a] text-xs sm:text-sm mx-4 mb-3">
+                      Data do leilão: {formatDateBR(imovel.data_leilao)}
+                    </p>
+                    <button className="mx-4 mt-auto mb-3 sm:mb-4 bg-[#e6b952] text-[#11397a] font-bold py-2 rounded-lg hover:bg-[#d4a842] transition-colors text-sm sm:text-base">
+                      Ver Detalhes
+                    </button>
+                  </Link>
+                </div>
               ))
             ) : (
-              <p className="col-span-full text-center text-[#11397a] font-bold text-lg py-8">
+              <p className="col-span-full text-center text-[#11397a] font-bold text-base sm:text-lg py-8">
                 Nenhum imóvel encontrado com os filtros atuais.
               </p>
             )}
           </div>
         </div>
       </section>
+
+      {mostrarComparador && (
+        <Comparador 
+          imoveis={imoveisParaComparar}
+          onClose={fecharComparador}
+        />
+      )}
 
       <Footer />
     </>

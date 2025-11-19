@@ -183,7 +183,6 @@ export default function Admin() {
       setRespostaTexto(prev => ({ ...prev, [id]: '' }));
       setMostrarResposta(prev => ({ ...prev, [id]: false }));
       
-      // Mostrar status do e-mail
       if (updated.emailStatus) {
         alert(updated.emailStatus);
       } else {
@@ -254,26 +253,26 @@ export default function Admin() {
     <>
       <Header />
       <Navbar />
-      <main className="max-w-6xl mx-auto p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-[#11397a]">
+      <main className="max-w-6xl mx-auto p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#11397a]">
             Painel Administrativo
           </h1>
-          <div className="flex items-center gap-4">
-            <span className="text-[#11397a]">Bem-vindo, <strong>{user?.username}</strong></span>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="text-[#11397a] text-sm sm:text-base">Bem-vindo, <strong>{user?.username}</strong></span>
             <button
               onClick={logout}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-bold"
+              className="bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-xs sm:text-sm font-bold"
             >
               Sair
             </button>
           </div>
         </div>
 
-        <div className="flex border-b border-[#11397a]/20 mb-6">
+        <div className="flex overflow-x-auto border-b border-[#11397a]/20 mb-6">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`px-6 py-3 font-bold transition-colors ${
+            className={`px-4 sm:px-6 py-3 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
               activeTab === 'dashboard'
                 ? 'text-[#11397a] border-b-2 border-[#11397a]'
                 : 'text-[#11397a]/50 hover:text-[#11397a]'
@@ -283,7 +282,7 @@ export default function Admin() {
           </button>
           <button
             onClick={() => setActiveTab('imoveis')}
-            className={`px-6 py-3 font-bold transition-colors ${
+            className={`px-4 sm:px-6 py-3 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
               activeTab === 'imoveis'
                 ? 'text-[#11397a] border-b-2 border-[#11397a]'
                 : 'text-[#11397a]/50 hover:text-[#11397a]'
@@ -293,7 +292,7 @@ export default function Admin() {
           </button>
           <button
             onClick={() => setActiveTab('mensagens')}
-            className={`px-6 py-3 font-bold transition-colors relative ${
+            className={`px-4 sm:px-6 py-3 font-bold transition-colors whitespace-nowrap relative text-sm sm:text-base ${
               activeTab === 'mensagens'
                 ? 'text-[#11397a] border-b-2 border-[#11397a]'
                 : 'text-[#11397a]/50 hover:text-[#11397a]'
@@ -309,25 +308,25 @@ export default function Admin() {
         </div>
 
         {activeTab === 'dashboard' && (
-          <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-[#11397a]">Estatísticas Gerais</h2>
+          <div className="space-y-6 sm:space-y-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#11397a]">Estatísticas Gerais</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-[#11397a] to-[#0e2f68] rounded-2xl p-6 text-white shadow-lg">
-                <div className="text-4xl mb-2">🏠</div>
-                <div className="text-3xl font-bold mb-1">{totalImoveis}</div>
-                <div className="text-white/80">Imóveis Cadastrados</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+              <div className="bg-gradient-to-br from-[#11397a] to-[#0e2f68] rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg">
+                <div className="text-2xl sm:text-4xl mb-2">🏠</div>
+                <div className="text-xl sm:text-3xl font-bold mb-1">{totalImoveis}</div>
+                <div className="text-white/80 text-xs sm:text-base">Imóveis Cadastrados</div>
               </div>
 
-              <div className="bg-gradient-to-br from-[#e6b952] to-[#d4a842] rounded-2xl p-6 text-[#11397a] shadow-lg">
-                <div className="text-4xl mb-2">💬</div>
-                <div className="text-3xl font-bold mb-1">{totalMensagens}</div>
-                <div className="text-[#11397a]/80">Mensagens Recebidas</div>
+              <div className="bg-gradient-to-br from-[#e6b952] to-[#d4a842] rounded-xl sm:rounded-2xl p-4 sm:p-6 text-[#11397a] shadow-lg">
+                <div className="text-2xl sm:text-4xl mb-2">💬</div>
+                <div className="text-xl sm:text-3xl font-bold mb-1">{totalMensagens}</div>
+                <div className="text-[#11397a]/80 text-xs sm:text-base">Mensagens Recebidas</div>
               </div>
 
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
-                <div className="text-4xl mb-2">✅</div>
-                <div className="text-3xl font-bold mb-1">{mensagensRespondidas}</div>
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg">
+                <div className="text-2xl sm:text-4xl mb-2">✅</div>
+                <div className="text-xl sm:text-3xl font-bold mb-1">{mensagensRespondidas}</div>
                 <div className="text-white/80">Mensagens Respondidas</div>
               </div>
 

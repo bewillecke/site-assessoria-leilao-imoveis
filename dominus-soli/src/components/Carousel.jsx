@@ -44,7 +44,7 @@ export default function Carousel({ items = [] }) {
   if (!items.length) return null;
 
   return (
-  <div className="relative mx-8 flex items-center gap-4 min-h-[540px]">
+  <div className="relative mx-4 sm:mx-6 md:mx-8 flex items-center gap-4 min-h-[540px]">
       <button
         onClick={() => go(-1)}
         className="hidden md:flex w-10 h-10 rounded-full border-2 border-[#11397a]
