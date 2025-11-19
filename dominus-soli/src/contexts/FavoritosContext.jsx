@@ -32,6 +32,16 @@ export function FavoritosProvider({ children }) {
   const toggleFavorito = (imovel) => {
     setFavoritos(prev => {
       const existe = prev.find(f => f.id === imovel.id);
+      
+      try {
+        const event = new CustomEvent('analytics:favorito', {
+          detail: { imovelId: imovel.id, acao: existe ? 'remover' : 'adicionar' }
+        });
+        window.dispatchEvent(event);
+      } catch (error) {
+        console.error('Erro ao registrar analytics:', error);
+      }
+      
       if (existe) {
         return prev.filter(f => f.id !== imovel.id);
       }

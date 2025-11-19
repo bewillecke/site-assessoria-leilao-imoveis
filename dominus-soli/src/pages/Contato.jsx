@@ -40,6 +40,15 @@ export default function Contato() {
 
       setMessage({ type: 'success', text: 'Mensagem enviada com sucesso! Entraremos em contato em breve.' });
       setFormData({ nome: "", email: "", mensagem: "" });
+      
+      try {
+        const event = new CustomEvent('analytics:contato', {
+          detail: { origem: 'formulario_contato' }
+        });
+        window.dispatchEvent(event);
+      } catch (error) {
+        console.error('Erro ao registrar analytics:', error);
+      }
     } catch (err) {
       console.error(err);
       setMessage({ type: 'error', text: 'Erro ao enviar mensagem. Tente novamente.' });

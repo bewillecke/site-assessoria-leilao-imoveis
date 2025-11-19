@@ -7,11 +7,13 @@ import Footer from "../components/Footer";
 import CalculadoraViabilidade from "../components/CalculadoraViabilidade";
 import { BRL, formatDateBR } from "../utils/formatters";
 import { useFavoritos } from "../contexts/FavoritosContext";
+import { useAnalytics } from "../contexts/AnalyticsContext";
 
 export default function ImovelDetalhes() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toggleFavorito, isFavorito } = useFavoritos();
+  const { registrarVisualizacao, registrarFavorito } = useAnalytics();
   const [imovel, setImovel] = useState(null);
   const [imoveisSimilares, setImoveisSimilares] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +26,7 @@ export default function ImovelDetalhes() {
         const imovelEncontrado = data.find((im) => im.id === Number(id));
         if (imovelEncontrado) {
           setImovel(imovelEncontrado);
+          registrarVisualizacao(imovelEncontrado.id);
           
           const similares = data
             .filter((im) => 
@@ -120,7 +123,11 @@ export default function ImovelDetalhes() {
               <h3 className="text-[#11397a] font-bold mb-3">Compartilhar este imóvel:</h3>
               <div className="flex flex-wrap gap-3">
                 <button
-                  onClick={() => toggleFavorito(imovel)}
+                  onClick={() => {
+                    const eraFavorito = isFavorito(imovel.id);
+                    toggleFavorito(imovel);
+                    registrarFavorito(imovel.id, eraFavorito ? 'remover' : 'adicionar');
+                  }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                     isFavorito(imovel.id)
                       ? 'bg-red-500 text-white hover:bg-red-600'

@@ -1,4 +1,5 @@
 import { useFavoritos } from "../contexts/FavoritosContext";
+import { useAnalytics } from "../contexts/AnalyticsContext";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
@@ -7,6 +8,7 @@ import { BRL, formatDateBR } from "../utils/formatters";
 
 export default function Favoritos() {
   const { favoritos, toggleFavorito, isFavorito, limparFavoritos } = useFavoritos();
+  const { registrarFavorito } = useAnalytics();
 
   return (
     <>
@@ -66,6 +68,7 @@ export default function Favoritos() {
                     onClick={(e) => {
                       e.preventDefault();
                       toggleFavorito(imovel);
+                      registrarFavorito(imovel.id, 'remover');
                     }}
                     className="absolute top-3 left-3 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold shadow-lg transition-all bg-red-500 text-white hover:bg-red-600"
                     title="Remover dos favoritos"

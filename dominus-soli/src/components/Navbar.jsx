@@ -23,6 +23,7 @@ export default function Navbar() {
             )}
           </Link>
           <Link to="/simulacoes" className="nav-underline text-[#11397a]">SIMULAÇÕES</Link>
+          <Link to="/estatisticas" className="nav-underline text-[#11397a]">ESTATÍSTICAS</Link>
           <Link to="/contato" className="nav-underline text-[#11397a]">CONTATOS</Link>
         </div>
 
@@ -84,6 +85,13 @@ export default function Navbar() {
               className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors"
             >
               SIMULAÇÕES
+            </Link>
+            <Link
+              to="/estatisticas"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors"
+            >
+              ESTATÍSTICAS
             </Link>
             <Link
               to="/contato"

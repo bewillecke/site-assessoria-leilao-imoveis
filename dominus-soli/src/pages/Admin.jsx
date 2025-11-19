@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useAnalytics } from '../contexts/AnalyticsContext';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { BRL } from '../utils/formatters';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+const COLORS = ['#11397a', '#e6b952', '#2563eb', '#dc2626', '#16a34a', '#9333ea'];
 
 export default function Admin() {
   const { user, logout } = useAuth();
+  const { visualizacoes, favoritosLog, contatosLog, limparAnalytics } = useAnalytics();
   const [imoveis, setImoveis] = useState([]);
   const [mensagens, setMensagens] = useState([]);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -305,6 +310,16 @@ export default function Admin() {
               </span>
             )}
           </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-4 sm:px-6 py-3 font-bold transition-colors whitespace-nowrap text-sm sm:text-base ${
+              activeTab === 'analytics'
+                ? 'text-[#11397a] border-b-2 border-[#11397a]'
+                : 'text-[#11397a]/50 hover:text-[#11397a]'
+            }`}
+          >
+            📈 Analytics
+          </button>
         </div>
 
         {activeTab === 'dashboard' && (
@@ -564,6 +579,278 @@ export default function Admin() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-[#11397a]">Analytics e Métricas</h2>
+              <button
+                onClick={limparAnalytics}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-semibold"
+              >
+                🗑️ Limpar Dados
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+                <div className="text-sm opacity-90 mb-2">Total de Visualizações</div>
+                <div className="text-3xl font-bold">
+                  {Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0)}
+                </div>
+                <div className="text-xs opacity-75 mt-2">Todos os imóveis</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
+                <div className="text-sm opacity-90 mb-2">Total de Favoritos</div>
+                <div className="text-3xl font-bold">{favoritosLog.length}</div>
+                <div className="text-xs opacity-75 mt-2">Ações de favoritar</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white shadow-lg">
+                <div className="text-sm opacity-90 mb-2">Total de Contatos</div>
+                <div className="text-3xl font-bold">{contatosLog.length}</div>
+                <div className="text-xs opacity-75 mt-2">Formulários enviados</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white shadow-lg">
+                <div className="text-sm opacity-90 mb-2">Taxa de Conversão</div>
+                <div className="text-3xl font-bold">
+                  {Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0) > 0
+                    ? ((favoritosLog.length / Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0)) * 100).toFixed(1)
+                    : 0}%
+                </div>
+                <div className="text-xs opacity-75 mt-2">Visualizações → Favoritos</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#11397a]/10">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4 flex items-center gap-2">
+                  <span>👀</span>
+                  Top 10 Imóveis Mais Visualizados
+                </h3>
+                {Object.keys(visualizacoes).length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-3">📊</div>
+                    <p className="text-[#11397a]/60">Nenhum imóvel visualizado ainda</p>
+                    <p className="text-sm text-[#11397a]/40 mt-2">Os dados aparecerão assim que os usuários começarem a navegar pelo site</p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {Object.entries(visualizacoes)
+                      .sort(([, a], [, b]) => b.count - a.count)
+                      .slice(0, 10)
+                      .map(([imovelId, data], index) => {
+                        const imovel = imoveis.find(i => i.id === Number(imovelId));
+                        return (
+                          <div key={imovelId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#11397a] text-white font-bold text-sm">
+                                {index + 1}
+                              </div>
+                              <div>
+                                <div className="font-semibold text-[#11397a] text-sm">
+                                  {imovel?.endereco || `Imóvel #${imovelId}`}
+                                </div>
+                                <div className="text-xs text-[#11397a]/60">
+                                  {imovel?.cidade_estado}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-bold text-[#11397a]">{data.count}</div>
+                              <div className="text-xs text-[#11397a]/60">visualizações</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#11397a]/10">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4 flex items-center gap-2">
+                  <span>❤️</span>
+                  Favoritos por Imóvel
+                </h3>
+                {favoritosLog.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-3">❤️</div>
+                    <p className="text-[#11397a]/60">Nenhum favorito registrado ainda</p>
+                    <p className="text-sm text-[#11397a]/40 mt-2">Os dados aparecerão quando os usuários favoritarem imóveis</p>
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height={400}>
+                    <BarChart data={(() => {
+                      const favoritosPorImovel = {};
+                      favoritosLog.forEach(log => {
+                        if (log.acao === 'adicionar') {
+                          favoritosPorImovel[log.imovelId] = (favoritosPorImovel[log.imovelId] || 0) + 1;
+                        }
+                      });
+                      const dados = Object.entries(favoritosPorImovel)
+                        .sort(([, a], [, b]) => b - a)
+                        .slice(0, 10)
+                        .map(([id, count]) => {
+                          const imovel = imoveis.find(i => i.id === Number(id));
+                          return {
+                            nome: imovel?.cidade_estado?.split('/')[0] || `#${id}`,
+                            quantidade: count,
+                          };
+                        });
+                      return dados.length > 0 ? dados : [{ nome: 'Sem dados', quantidade: 0 }];
+                    })()}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="nome" angle={-45} textAnchor="end" height={100} style={{ fontSize: '11px' }} />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="quantidade" fill="#16a34a" name="Favoritos" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#11397a]/10">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4 flex items-center gap-2">
+                  <span>📅</span>
+                  Atividade ao Longo do Tempo (Últimos 7 Dias)
+                </h3>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={(() => {
+                    const hoje = new Date();
+                    const ultimos7Dias = [];
+                    for (let i = 6; i >= 0; i--) {
+                      const data = new Date(hoje);
+                      data.setDate(data.getDate() - i);
+                      const dataStr = data.toISOString().split('T')[0];
+                      
+                      const visualizacoesDia = Object.values(visualizacoes).filter(v => 
+                        v.ultimaVisualizacao && v.ultimaVisualizacao.startsWith(dataStr)
+                      ).length;
+                      
+                      const favoritosDia = favoritosLog.filter(f => 
+                        f.timestamp && f.timestamp.startsWith(dataStr)
+                      ).length;
+                      
+                      const contatosDia = contatosLog.filter(c => 
+                        c.timestamp && c.timestamp.startsWith(dataStr)
+                      ).length;
+                      
+                      ultimos7Dias.push({
+                        dia: data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+                        Visualizações: visualizacoesDia,
+                        Favoritos: favoritosDia,
+                        Contatos: contatosDia,
+                      });
+                    }
+                    return ultimos7Dias;
+                  })()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="dia" style={{ fontSize: '12px' }} />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="Visualizações" stroke="#2563eb" strokeWidth={2} dot={{ r: 4 }} />
+                    <Line type="monotone" dataKey="Favoritos" stroke="#16a34a" strokeWidth={2} dot={{ r: 4 }} />
+                    <Line type="monotone" dataKey="Contatos" stroke="#dc2626" strokeWidth={2} dot={{ r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#11397a]/10">
+                <h3 className="text-xl font-bold text-[#11397a] mb-4 flex items-center gap-2">
+                  <span>🎯</span>
+                  Funil de Conversão
+                </h3>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={[
+                    {
+                      etapa: 'Visualizações',
+                      quantidade: Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0),
+                    },
+                    {
+                      etapa: 'Favoritos',
+                      quantidade: favoritosLog.filter(f => f.acao === 'adicionar').length,
+                    },
+                    {
+                      etapa: 'Contatos',
+                      quantidade: contatosLog.length,
+                    },
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="etapa" style={{ fontSize: '12px' }} />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="quantidade" fill="#11397a" name="Quantidade" />
+                  </BarChart>
+                </ResponsiveContainer>
+                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                  <div className="text-sm text-[#11397a]/80 space-y-1">
+                    <div>• Taxa Visualização → Favorito: <strong>
+                      {Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0) > 0
+                        ? ((favoritosLog.filter(f => f.acao === 'adicionar').length / Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0)) * 100).toFixed(1)
+                        : 0}%
+                    </strong></div>
+                    <div>• Taxa Favorito → Contato: <strong>
+                      {favoritosLog.filter(f => f.acao === 'adicionar').length > 0
+                        ? ((contatosLog.length / favoritosLog.filter(f => f.acao === 'adicionar').length) * 100).toFixed(1)
+                        : 0}%
+                    </strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-[#11397a] to-[#1e5bb8] text-white rounded-xl p-6 shadow-xl">
+              <h3 className="text-xl font-bold mb-4">📊 Insights e Recomendações</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                  <div className="font-bold mb-2">🏆 Imóvel Mais Popular</div>
+                  <div className="opacity-90">
+                    {(() => {
+                      const maisVisto = Object.entries(visualizacoes).sort(([, a], [, b]) => b.count - a.count)[0];
+                      if (!maisVisto) return 'Sem dados ainda';
+                      const imovel = imoveis.find(i => i.id === Number(maisVisto[0]));
+                      return imovel ? `${imovel.endereco} (${maisVisto[1].count} visualizações)` : `Imóvel #${maisVisto[0]}`;
+                    })()}
+                  </div>
+                </div>
+                <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                  <div className="font-bold mb-2">💡 Sugestão</div>
+                  <div className="opacity-90">
+                    {(() => {
+                      const taxa = Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0) > 0
+                        ? ((favoritosLog.length / Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0)) * 100)
+                        : 0;
+                      if (taxa < 5) return 'Taxa de conversão baixa. Considere melhorar fotos e descrições.';
+                      if (taxa < 15) return 'Taxa de conversão moderada. Continue promovendo os imóveis.';
+                      return 'Excelente taxa de conversão! Continue com o bom trabalho.';
+                    })()}
+                  </div>
+                </div>
+                <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                  <div className="font-bold mb-2">📈 Crescimento</div>
+                  <div className="opacity-90">
+                    {Object.values(visualizacoes).reduce((sum, v) => sum + v.count, 0)} visualizações totais • 
+                    {' '}{favoritosLog.length} favoritos • 
+                    {' '}{contatosLog.length} contatos
+                  </div>
+                </div>
+                <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                  <div className="font-bold mb-2">🎯 Próximos Passos</div>
+                  <div className="opacity-90">
+                    Monitore os imóveis com alta visualização mas baixo favorit amento para ajustar estratégia.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </main>
