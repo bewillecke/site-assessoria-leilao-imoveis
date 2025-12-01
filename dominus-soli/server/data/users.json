@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1",
+    "name": "Administrador",
+    "email": "admin",
+    "password": "admin",
+    "role": "admin",
+    "sexo": "Outro",
+    "idade": 30,
+    "favorites": []
+  },
+  {
+    "id": "1764607022841",
+    "name": "Bernardo Willecke Martins da Rocha",
+    "email": "bewillecke@gmail.com",
+    "password": "bewillecke321",
+    "sexo": "Masculino",
+    "idade": "27",
+    "role": "user",
+    "favorites": [
+      3,
+      2
+    ]
+  }
+]

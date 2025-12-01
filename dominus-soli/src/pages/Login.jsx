@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export default function Login() {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const { user, login } = useAuth();
 
   if (user) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to={user.role === 'admin' ? "/admin" : "/"} replace />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
-    const result = login(credentials.username, credentials.password);
+    const result = await login(credentials.email, credentials.password);
     if (!result.success) {
       setError(result.error);
     }
@@ -36,10 +36,10 @@ export default function Login() {
         <div className="max-w-md w-full space-y-6 sm:space-y-8 bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-[#11397a]/20">
           <div>
             <h2 className="text-center text-2xl sm:text-3xl font-extrabold text-[#11397a]">
-              Painel Administrativo
+              Login
             </h2>
             <p className="mt-2 text-center text-xs sm:text-sm text-[#11397a]/70">
-              Faça login para acessar
+              Faça login para acessar sua conta
             </p>
           </div>
           <form className="mt-6 sm:mt-8 space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
@@ -50,18 +50,18 @@ export default function Login() {
             )}
             <div className="rounded-md shadow-sm space-y-3 sm:space-y-4">
               <div>
-                <label htmlFor="username" className="text-[#11397a] font-bold mb-2 block text-sm sm:text-base">
-                  Usuário
+                <label htmlFor="email" className="text-[#11397a] font-bold mb-2 block text-sm sm:text-base">
+                  Email
                 </label>
                 <input
-                  id="username"
-                  name="username"
+                  id="email"
+                  name="email"
                   type="text"
                   required
-                  value={credentials.username}
+                  value={credentials.email}
                   onChange={handleChange}
                   className="appearance-none rounded-lg relative block w-full px-3 py-2 sm:py-3 border-2 border-[#11397a33] placeholder-gray-500 text-[#11397a] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#11397a]/15 focus:border-[#11397a] transition-all"
-                  placeholder="Digite seu usuário"
+                  placeholder="Digite seu email"
                 />
               </div>
               <div>
@@ -91,10 +91,11 @@ export default function Login() {
             </div>
 
             <div className="text-center">
-              <p className="text-xs text-[#11397a]/60 mt-4">
-                💡 <strong>Credenciais de teste:</strong><br />
-                Usuário: <code className="bg-gray-100 px-2 py-1 rounded">admin</code><br />
-                Senha: <code className="bg-gray-100 px-2 py-1 rounded">admin123</code>
+              <p className="text-xs sm:text-sm text-[#11397a]/70">
+                Não tem uma conta?{' '}
+                <Link to="/register" className="font-bold text-[#11397a] hover:text-[#0e2f68]">
+                  Cadastre-se
+                </Link>
               </p>
             </div>
           </form>

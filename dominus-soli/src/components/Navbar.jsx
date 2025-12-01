@@ -2,10 +2,12 @@ import "../index.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useFavoritos } from "../contexts/FavoritosContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalFavoritos } = useFavoritos();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="sticky top-0 z-20 bg-[#e6b952] border-y border-slate-200">
@@ -25,6 +27,14 @@ export default function Navbar() {
           <Link to="/simulacoes" className="nav-underline text-[#11397a]">SIMULAÇÕES</Link>
           <Link to="/estatisticas" className="nav-underline text-[#11397a]">ESTATÍSTICAS</Link>
           <Link to="/contato" className="nav-underline text-[#11397a]">CONTATOS</Link>
+          {user ? (
+            <div className="flex items-center gap-2 ml-2">
+              <span className="text-[#11397a] text-sm font-bold truncate max-w-[100px]" title={user.name}>{user.name.split(' ')[0]}</span>
+              <button onClick={logout} className="text-red-600 text-sm font-bold hover:underline">SAIR</button>
+            </div>
+          ) : (
+            <Link to="/login" className="nav-underline text-[#11397a]">LOGIN</Link>
+          )}
         </div>
 
         <div className="md:hidden flex items-center justify-between">
@@ -100,6 +110,22 @@ export default function Navbar() {
             >
               CONTATOS
             </Link>
+            {user ? (
+              <div className="px-4 py-2 border-t border-[#11397a]/20 mt-2">
+                <div className="text-[#11397a] font-bold mb-1">Olá, {user.name}</div>
+                <button onClick={() => { logout(); setMenuOpen(false); }} className="text-red-600 font-bold w-full text-left">
+                  SAIR
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className="block px-4 py-2 text-[#11397a] font-semibold hover:bg-[#d4a842] rounded transition-colors"
+              >
+                LOGIN
+              </Link>
+            )}
           </div>
         )}
       </div>

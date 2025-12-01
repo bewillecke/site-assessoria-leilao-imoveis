@@ -17,6 +17,7 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 
 const IMOVEIS_PATH = path.join(process.cwd(), 'public', 'imoveis.json');
 const MENSAGENS_PATH = path.join(process.cwd(), 'public', 'mensagens.json');
+const USERS_PATH = path.join(process.cwd(), 'server', 'data', 'users.json');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -97,6 +98,20 @@ async function readMensagens() {
 async function writeMensagens(arr) {
   const data = JSON.stringify(arr, null, 2);
   await fs.writeFile(MENSAGENS_PATH, data, 'utf-8');
+}
+
+async function readUsers() {
+  try {
+    const raw = await fs.readFile(USERS_PATH, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    return [];
+  }
+}
+
+async function writeUsers(arr) {
+  const data = JSON.stringify(arr, null, 2);
+  await fs.writeFile(USERS_PATH, data, 'utf-8');
 }
 
 app.get('/api/imoveis', async (req, res) => {
@@ -301,6 +316,134 @@ app.delete('/api/mensagens/:id', async (req, res) => {
   } catch (err) {
     console.error('DELETE /api/mensagens/:id error', err);
     res.status(500).json({ error: 'Erro ao deletar mensagem' });
+  }
+});
+
+// Auth Routes
+app.post('/api/register', async (req, res) => {
+  try {
+    const { name, email, password, sexo, idade } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
+    }
+    
+    const users = await readUsers();
+    if (users.find(u => u.email === email)) {
+      return res.status(400).json({ error: 'Email já cadastrado' });
+    }
+
+    const newUser = {
+      id: Date.now().toString(),
+      name,
+      email,
+      password, // In a real app, hash this!
+      sexo,
+      idade,
+      role: 'user',
+      favorites: []
+    };
+
+    users.push(newUser);
+    await writeUsers(users);
+    
+    const { password: _, ...userWithoutPassword } = newUser;
+    res.status(201).json(userWithoutPassword);
+  } catch (err) {
+    console.error('Register error', err);
+    res.status(500).json({ error: 'Erro ao registrar usuário' });
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const users = await readUsers();
+    const user = users.find(u => (u.email === email || u.username === email) && u.password === password);
+
+    if (!user) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+    res.json(userWithoutPassword);
+  } catch (err) {
+    console.error('Login error', err);
+    res.status(500).json({ error: 'Erro ao fazer login' });
+  }
+});
+
+app.post('/api/users/:id/favorites', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { imovelId } = req.body;
+    const users = await readUsers();
+    const userIndex = users.findIndex(u => u.id === id);
+
+    if (userIndex === -1) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const user = users[userIndex];
+    if (!user.favorites) user.favorites = [];
+
+    const favIndex = user.favorites.indexOf(imovelId);
+    if (favIndex === -1) {
+      user.favorites.push(imovelId);
+    } else {
+      user.favorites.splice(favIndex, 1);
+    }
+
+    users[userIndex] = user;
+    await writeUsers(users);
+    res.json(user.favorites);
+  } catch (err) {
+    console.error('Favorites error', err);
+    res.status(500).json({ error: 'Erro ao atualizar favoritos' });
+  }
+});
+
+app.get('/api/users/:id/favorites', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const users = await readUsers();
+    const user = users.find(u => u.id === id);
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+    res.json(user.favorites || []);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar favoritos' });
+  }
+});
+
+app.get('/api/stats', async (req, res) => {
+  try {
+    const users = await readUsers();
+    const imoveis = await readImoveis();
+    
+    // Calculate most favorited
+    const favCounts = {};
+    users.forEach(u => {
+      if (u.favorites) {
+        u.favorites.forEach(fid => {
+          favCounts[fid] = (favCounts[fid] || 0) + 1;
+        });
+      }
+    });
+
+    const topFavorites = Object.entries(favCounts)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 5)
+      .map(([id, count]) => {
+        const imovel = imoveis.find(i => i.id === Number(id));
+        return { ...imovel, count };
+      });
+
+    res.json({
+      totalUsers: users.length,
+      totalImoveis: imoveis.length,
+      topFavorites
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar estatísticas' });
   }
 });
 
