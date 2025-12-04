@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useAnalytics } from '../contexts/AnalyticsContext';
+import { useComments } from '../contexts/CommentsContext';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
@@ -13,6 +14,7 @@ const COLORS = ['#11397a', '#e6b952', '#2563eb', '#dc2626', '#16a34a', '#9333ea'
 export default function Admin() {
   const { user, logout } = useAuth();
   const { visualizacoes, favoritosLog, contatosLog, limparAnalytics } = useAnalytics();
+  const { comments, fetchAllComments, approveComment, rejectComment, deleteComment } = useComments();
   const [imoveis, setImoveis] = useState([]);
   const [mensagens, setMensagens] = useState([]);
   const [stats, setStats] = useState(null);
@@ -38,6 +40,7 @@ export default function Admin() {
 
   useEffect(() => {
     carregarDados();
+    fetchAllComments('pending');
   }, []);
 
   async function carregarDados() {
@@ -322,6 +325,24 @@ export default function Admin() {
             }`}
           >
             📈 Analytics
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('comentarios');
+              fetchAllComments('pending');
+            }}
+            className={`px-4 sm:px-6 py-3 font-bold transition-colors whitespace-nowrap relative text-sm sm:text-base ${
+              activeTab === 'comentarios'
+                ? 'text-[#11397a] border-b-2 border-[#11397a]'
+                : 'text-[#11397a]/50 hover:text-[#11397a]'
+            }`}
+          >
+            💬 Comentários ({comments.length})
+            {comments.filter(c => c.status === 'pending').length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {comments.filter(c => c.status === 'pending').length}
+              </span>
+            )}
           </button>
         </div>
 
@@ -882,6 +903,142 @@ export default function Admin() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'comentarios' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-[#11397a]">Moderação de Comentários</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => fetchAllComments('pending')}
+                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors text-sm font-semibold"
+                >
+                  Pendentes ({comments.filter(c => c.status === 'pending').length})
+                </button>
+                <button
+                  onClick={() => fetchAllComments('approved')}
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm font-semibold"
+                >
+                  Aprovados ({comments.filter(c => c.status === 'approved').length})
+                </button>
+                <button
+                  onClick={() => fetchAllComments('rejected')}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm font-semibold"
+                >
+                  Rejeitados ({comments.filter(c => c.status === 'rejected').length})
+                </button>
+                <button
+                  onClick={() => fetchAllComments()}
+                  className="bg-[#11397a] text-white px-4 py-2 rounded-lg hover:bg-[#0e2f68] transition-colors text-sm font-semibold"
+                >
+                  Todos
+                </button>
+              </div>
+            </div>
+
+            {comments.length === 0 ? (
+              <div className="text-center py-16 bg-gray-50 rounded-xl">
+                <div className="text-6xl mb-4">💬</div>
+                <p className="text-[#11397a]/70">Nenhum comentário para moderar</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {comments.map((comment) => {
+                  const imovel = imoveis.find(i => i.id === comment.imovelId);
+                  return (
+                    <div
+                      key={comment.id}
+                      className={`border-2 rounded-xl p-6 ${
+                        comment.status === 'pending' 
+                          ? 'bg-orange-50 border-orange-200' 
+                          : comment.status === 'approved'
+                          ? 'bg-green-50 border-green-200'
+                          : 'bg-red-50 border-red-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="font-bold text-[#11397a] text-lg">{comment.userName}</h3>
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              comment.status === 'pending'
+                                ? 'bg-orange-200 text-orange-800'
+                                : comment.status === 'approved'
+                                ? 'bg-green-200 text-green-800'
+                                : 'bg-red-200 text-red-800'
+                            }`}>
+                              {comment.status === 'pending' && '⏳ Pendente'}
+                              {comment.status === 'approved' && '✓ Aprovado'}
+                              {comment.status === 'rejected' && '✗ Rejeitado'}
+                            </span>
+                          </div>
+                          <p className="text-sm text-[#11397a]/70">
+                            {new Date(comment.data).toLocaleString('pt-BR')}
+                          </p>
+                        </div>
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                              key={star}
+                              className={`text-xl ${
+                                star <= comment.rating ? 'text-yellow-400' : 'text-gray-300'
+                              }`}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="bg-white rounded-lg p-4 mb-4">
+                        <p className="text-[#11397a] mb-2">
+                          <strong>Imóvel:</strong> {imovel ? `${imovel.endereco} - ${imovel.cidade_estado}` : `ID: ${comment.imovelId}`}
+                        </p>
+                        <p className="text-[#11397a] whitespace-pre-wrap">{comment.texto}</p>
+                      </div>
+
+                      <div className="flex gap-2">
+                        {comment.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={async () => {
+                                await approveComment(comment.id);
+                                fetchAllComments('pending');
+                              }}
+                              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-bold"
+                            >
+                              ✓ Aprovar
+                            </button>
+                            <button
+                              onClick={async () => {
+                                await rejectComment(comment.id);
+                                fetchAllComments('pending');
+                              }}
+                              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-bold"
+                            >
+                              ✗ Rejeitar
+                            </button>
+                          </>
+                        )}
+                        <button
+                          onClick={async () => {
+                            if (window.confirm('Deseja realmente deletar este comentário?')) {
+                              await deleteComment(comment.id);
+                              fetchAllComments('pending');
+                            }
+                          }}
+                          className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm font-bold ml-auto"
+                        >
+                          🗑️ Deletar
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </main>

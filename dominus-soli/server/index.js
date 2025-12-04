@@ -18,6 +18,7 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 const IMOVEIS_PATH = path.join(process.cwd(), 'public', 'imoveis.json');
 const MENSAGENS_PATH = path.join(process.cwd(), 'public', 'mensagens.json');
 const USERS_PATH = path.join(process.cwd(), 'server', 'data', 'users.json');
+const COMMENTS_PATH = path.join(process.cwd(), 'server', 'data', 'comments.json');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -112,6 +113,20 @@ async function readUsers() {
 async function writeUsers(arr) {
   const data = JSON.stringify(arr, null, 2);
   await fs.writeFile(USERS_PATH, data, 'utf-8');
+}
+
+async function readComments() {
+  try {
+    const raw = await fs.readFile(COMMENTS_PATH, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    return [];
+  }
+}
+
+async function writeComments(arr) {
+  const data = JSON.stringify(arr, null, 2);
+  await fs.writeFile(COMMENTS_PATH, data, 'utf-8');
 }
 
 app.get('/api/imoveis', async (req, res) => {
@@ -444,6 +459,146 @@ app.get('/api/stats', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao buscar estatísticas' });
+  }
+});
+
+// Comments Routes
+app.get('/api/comments', async (req, res) => {
+  try {
+    const { imovelId, status } = req.query;
+    let comments = await readComments();
+    
+    if (imovelId) {
+      comments = comments.filter(c => c.imovelId === Number(imovelId));
+    }
+    
+    if (status) {
+      comments = comments.filter(c => c.status === status);
+    }
+    
+    res.json(comments);
+  } catch (err) {
+    console.error('GET /api/comments error', err);
+    res.status(500).json({ error: 'Erro ao buscar comentários' });
+  }
+});
+
+app.post('/api/comments', async (req, res) => {
+  try {
+    const { imovelId, userId, userName, rating, texto } = req.body;
+    
+    if (!imovelId || !userId || !userName || !rating || !texto) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+    }
+    
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ error: 'Rating deve ser entre 1 e 5' });
+    }
+    
+    const comments = await readComments();
+    const newComment = {
+      id: Date.now(),
+      imovelId: Number(imovelId),
+      userId,
+      userName,
+      rating: Number(rating),
+      texto,
+      data: new Date().toISOString(),
+      status: 'pending' // pending, approved, rejected
+    };
+    
+    comments.push(newComment);
+    await writeComments(comments);
+    
+    res.status(201).json(newComment);
+  } catch (err) {
+    console.error('POST /api/comments error', err);
+    res.status(500).json({ error: 'Erro ao criar comentário' });
+  }
+});
+
+app.patch('/api/comments/:id/approve', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const comments = await readComments();
+    const comment = comments.find(c => c.id === id);
+    
+    if (!comment) {
+      return res.status(404).json({ error: 'Comentário não encontrado' });
+    }
+    
+    comment.status = 'approved';
+    await writeComments(comments);
+    
+    res.json(comment);
+  } catch (err) {
+    console.error('PATCH /api/comments/:id/approve error', err);
+    res.status(500).json({ error: 'Erro ao aprovar comentário' });
+  }
+});
+
+app.patch('/api/comments/:id/reject', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const comments = await readComments();
+    const comment = comments.find(c => c.id === id);
+    
+    if (!comment) {
+      return res.status(404).json({ error: 'Comentário não encontrado' });
+    }
+    
+    comment.status = 'rejected';
+    await writeComments(comments);
+    
+    res.json(comment);
+  } catch (err) {
+    console.error('PATCH /api/comments/:id/reject error', err);
+    res.status(500).json({ error: 'Erro ao rejeitar comentário' });
+  }
+});
+
+app.delete('/api/comments/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const comments = await readComments();
+    const index = comments.findIndex(c => c.id === id);
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'Comentário não encontrado' });
+    }
+    
+    const deletado = comments.splice(index, 1)[0];
+    await writeComments(comments);
+    
+    res.json({ message: 'Comentário deletado com sucesso', comment: deletado });
+  } catch (err) {
+    console.error('DELETE /api/comments/:id error', err);
+    res.status(500).json({ error: 'Erro ao deletar comentário' });
+  }
+});
+
+app.get('/api/imoveis/:id/rating', async (req, res) => {
+  try {
+    const imovelId = Number(req.params.id);
+    const comments = await readComments();
+    const approvedComments = comments.filter(c => 
+      c.imovelId === imovelId && c.status === 'approved'
+    );
+    
+    if (approvedComments.length === 0) {
+      return res.json({ averageRating: 0, totalRatings: 0 });
+    }
+    
+    const sum = approvedComments.reduce((acc, c) => acc + c.rating, 0);
+    const averageRating = sum / approvedComments.length;
+    
+    res.json({
+      averageRating: Math.round(averageRating * 10) / 10,
+      totalRatings: approvedComments.length
+    });
+  } catch (err) {
+    console.error('GET /api/imoveis/:id/rating error', err);
+    res.status(500).json({ error: 'Erro ao buscar rating' });
   }
 });
 

@@ -5,19 +5,24 @@ import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CalculadoraViabilidade from "../components/CalculadoraViabilidade";
+import CommentForm from "../components/CommentForm";
+import CommentsList from "../components/CommentsList";
 import { BRL, formatDateBR } from "../utils/formatters";
 import { useFavoritos } from "../contexts/FavoritosContext";
 import { useAnalytics } from "../contexts/AnalyticsContext";
+import { useComments } from "../contexts/CommentsContext";
 
 export default function ImovelDetalhes() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toggleFavorito, isFavorito } = useFavoritos();
   const { registrarVisualizacao, registrarFavorito } = useAnalytics();
+  const { comments, loading: loadingComments, fetchCommentsByImovel, addComment, getImovelRating } = useComments();
   const [imovel, setImovel] = useState(null);
   const [imoveisSimilares, setImoveisSimilares] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mostrarCalculadora, setMostrarCalculadora] = useState(false);
+  const [rating, setRating] = useState({ averageRating: 0, totalRatings: 0 });
 
   useEffect(() => {
     fetch("/imoveis.json")
@@ -35,6 +40,10 @@ export default function ImovelDetalhes() {
             )
             .slice(0, 3);
           setImoveisSimilares(similares);
+
+          // Carregar comentários e rating
+          fetchCommentsByImovel(imovelEncontrado.id);
+          getImovelRating(imovelEncontrado.id).then(setRating);
         }
         setLoading(false);
       })
@@ -61,6 +70,34 @@ export default function ImovelDetalhes() {
     };
 
     window.open(urls[plataforma], "_blank");
+  };
+
+  const handleCommentAdded = async (imovelId, ratingValue, texto) => {
+    const result = await addComment(imovelId, ratingValue, texto);
+    if (result.success) {
+      const newRating = await getImovelRating(imovelId);
+      setRating(newRating);
+    }
+    return result;
+  };
+
+  const renderStars = (avgRating) => {
+    const fullStars = Math.floor(avgRating);
+    const hasHalfStar = avgRating % 1 >= 0.5;
+    
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map((star) => {
+          if (star <= fullStars) {
+            return <span key={star} className="text-yellow-400 text-xl">★</span>;
+          } else if (star === fullStars + 1 && hasHalfStar) {
+            return <span key={star} className="text-yellow-400 text-xl">☆</span>;
+          } else {
+            return <span key={star} className="text-gray-300 text-xl">★</span>;
+          }
+        })}
+      </div>
+    );
   };
 
   if (loading) {
@@ -337,6 +374,44 @@ export default function ImovelDetalhes() {
             </div>
           </div>
         )}
+
+        <div className="mt-12 bg-gray-50 rounded-2xl p-6 sm:p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#11397a]">
+              Avaliações e Comentários
+            </h2>
+            {rating.totalRatings > 0 && (
+              <div className="text-right">
+                <div className="flex items-center gap-2">
+                  {renderStars(rating.averageRating)}
+                  <span className="text-2xl font-bold text-[#11397a]">
+                    {rating.averageRating.toFixed(1)}
+                  </span>
+                </div>
+                <p className="text-sm text-[#11397a]/70 mt-1">
+                  {rating.totalRatings} {rating.totalRatings === 1 ? 'avaliação' : 'avaliações'}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <CommentForm 
+              imovelId={Number(id)} 
+              onCommentAdded={handleCommentAdded}
+            />
+
+            <div className="pt-6 border-t-2 border-[#11397a]/10">
+              <h3 className="text-xl font-bold text-[#11397a] mb-4">
+                Comentários ({comments.length})
+              </h3>
+              <CommentsList 
+                comments={comments} 
+                loading={loadingComments}
+              />
+            </div>
+          </div>
+        </div>
       </main>
 
       {mostrarCalculadora && (

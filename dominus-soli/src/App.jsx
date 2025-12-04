@@ -3,6 +3,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { FavoritosProvider } from "./contexts/FavoritosContext";
 import { CalculadoraProvider } from "./contexts/CalculadoraContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
+import { CommentsProvider } from "./contexts/CommentsContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home.jsx";
 import QuemSomos from "./pages/QuemSomos.jsx";
@@ -24,8 +25,9 @@ export default function App() {
         <FavoritosProvider>
           <CalculadoraProvider>
             <AnalyticsProvider>
-              <BrowserRouter>
-                <Routes>
+              <CommentsProvider>
+                <BrowserRouter>
+                  <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/quem-somos" element={<QuemSomos />} />
                 <Route path="/oportunidades" element={<Oportunidades />} />
@@ -43,6 +45,7 @@ export default function App() {
                 <Route path="/imovel/:id" element={<ImovelDetalhes />} />
               </Routes>
             </BrowserRouter>
+              </CommentsProvider>
             </AnalyticsProvider>
           </CalculadoraProvider>
         </FavoritosProvider>
