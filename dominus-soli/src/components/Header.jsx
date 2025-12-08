@@ -1,3 +1,17 @@
+/**
+ * Header.jsx - Componente de Cabeçalho do Site
+ * 
+ * Exibe o cabeçalho principal da aplicação com:
+ * - Logo da Dominus Soli
+ * - Título "Assessoria em Leilão de Imóveis"
+ * - Slogan da empresa
+ * 
+ * Este componente é utilizado em todas as páginas públicas
+ * para manter a identidade visual consistente.
+ * 
+ * Estilização: Fundo azul (#11397a), responsivo para mobile e desktop
+ */
+
 export default function Header() {
   return (
     <section className="py-6 sm:py-10 text-center bg-[#11397a] px-4">

@@ -1,3 +1,32 @@
+/**
+ * Register.jsx - Página de Cadastro de Usuários
+ * 
+ * Formulário de registro para novos usuários criarem suas contas.
+ * Após cadastro bem-sucedido, o usuário já fica automaticamente logado.
+ * 
+ * Campos obrigatórios:
+ * - Nome completo
+ * - Email (usado para login)
+ * - Senha
+ * - Sexo (seleção: Masculino/Feminino/Outro)
+ * - Idade
+ * 
+ * Validações:
+ * - Campos required via HTML5
+ * - Email único (validado pela API)
+ * 
+ * Comportamentos:
+ * - Usuário já logado: Redireciona para home (/)
+ * - Registro bem-sucedido: Loga automaticamente e redireciona
+ * - Registro falhou: Exibe mensagem de erro
+ * 
+ * Estados:
+ * - formData: Todos os campos do formulário
+ * - error: Mensagem de erro (se houver)
+ * 
+ * Link para login disponível para usuários existentes.
+ */
+
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Navigate, Link } from 'react-router-dom';

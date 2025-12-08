@@ -1,3 +1,63 @@
+/**
+ * server/index.js - Servidor Backend Express
+ * 
+ * API REST que fornece todos os endpoints necessários para o frontend.
+ * Responsável por gerenciar dados de imóveis, usuários, mensagens e comentários.
+ * 
+ * TECNOLOGIAS:
+ * - Express.js: Framework web
+ * - CORS: Permite requisições cross-origin do frontend
+ * - Nodemailer: Envio de emails de resposta aos contatos
+ * - dotenv: Variáveis de ambiente
+ * 
+ * PERSISTÊNCIA:
+ * Os dados são armazenados em arquivos JSON:
+ * - public/imoveis.json: Lista de imóveis
+ * - public/mensagens.json: Mensagens de contato
+ * - server/data/users.json: Usuários cadastrados
+ * - server/data/comments.json: Comentários e avaliações
+ * 
+ * GRUPOS DE ENDPOINTS:
+ * 
+ * IMÓVEIS (/api/imoveis):
+ * - GET /: Lista todos os imóveis
+ * - GET /:id: Obtém um imóvel específico
+ * - POST /: Cria novo imóvel
+ * - PUT /:id: Atualiza imóvel existente
+ * - DELETE /:id: Remove um imóvel
+ * 
+ * MENSAGENS (/api/mensagens):
+ * - GET /: Lista todas as mensagens
+ * - POST /: Cria nova mensagem de contato
+ * - PATCH /:id/lida: Marca mensagem como lida
+ * - POST /:id/responder: Responde mensagem (envia email)
+ * - DELETE /:id: Remove mensagem
+ * 
+ * AUTENTICAÇÃO (/api):
+ * - POST /register: Cadastra novo usuário
+ * - POST /login: Autentica usuário existente
+ * 
+ * FAVORITOS (/api/users/:id/favorites):
+ * - GET /: Lista favoritos do usuário
+ * - POST /: Adiciona favorito
+ * - DELETE /:imovelId: Remove favorito
+ * 
+ * COMENTÁRIOS (/api/comments):
+ * - GET /: Lista comentários (filtro por imovelId e status)
+ * - POST /: Adiciona comentário (status: pending)
+ * - PATCH /:id/approve: Aprova comentário
+ * - PATCH /:id/reject: Rejeita comentário
+ * - DELETE /:id: Remove comentário
+ * 
+ * ESTATÍSTICAS (/api/stats):
+ * - GET /: Retorna estatísticas gerais para o admin
+ * 
+ * RATING (/api/imoveis/:id/rating):
+ * - GET /: Retorna média de avaliações do imóvel
+ * 
+ * Porta padrão: 4000 (configurável via variável PORT)
+ */
+
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs/promises';
@@ -5,21 +65,30 @@ import path from 'path';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+// Carrega variáveis de ambiente do arquivo .env
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
-app.use(express.json());
+// Middlewares globais
+app.use(cors()); // Permite requisições de qualquer origem
+app.use(express.json()); // Parse automático de JSON no body
 
+// Serve arquivos estáticos da pasta public (imagens, JSON de imóveis)
 app.use(express.static(path.join(process.cwd(), 'public')));
 
+// Caminhos dos arquivos de dados JSON
 const IMOVEIS_PATH = path.join(process.cwd(), 'public', 'imoveis.json');
 const MENSAGENS_PATH = path.join(process.cwd(), 'public', 'mensagens.json');
 const USERS_PATH = path.join(process.cwd(), 'server', 'data', 'users.json');
 const COMMENTS_PATH = path.join(process.cwd(), 'server', 'data', 'comments.json');
 
+/**
+ * Configuração do Nodemailer para envio de emails
+ * Utiliza Gmail como serviço de email
+ * Credenciais devem ser configuradas no arquivo .env
+ */
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -28,6 +97,16 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+/**
+ * Envia email de resposta para um contato
+ * Utiliza template HTML formatado com estilo da marca
+ * 
+ * @param {string} destinatario - Email do cliente
+ * @param {string} nomeCliente - Nome do cliente
+ * @param {string} mensagemOriginal - Mensagem que o cliente enviou
+ * @param {string} respostaTexto - Resposta do admin
+ * @returns {Object} { success: boolean, error?: string }
+ */
 async function enviarEmailResposta(destinatario, nomeCliente, mensagemOriginal, respostaTexto) {
   try {
     const mailOptions = {

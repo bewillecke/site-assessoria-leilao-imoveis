@@ -1,3 +1,27 @@
+/**
+ * Login.jsx - Página de Autenticação
+ * 
+ * Formulário de login para usuários existentes acessarem suas contas.
+ * Autentica via API e redireciona conforme o tipo de usuário.
+ * 
+ * Campos:
+ * - Email: Identificador do usuário
+ * - Senha: Credencial de acesso
+ * 
+ * Comportamentos:
+ * - Usuário já logado: Redireciona automaticamente
+ *   - Admin: vai para /admin
+ *   - Comum: vai para /
+ * - Login bem-sucedido: Salva usuário no contexto e localStorage
+ * - Login falhou: Exibe mensagem de erro
+ * 
+ * Estados:
+ * - credentials: Email e senha digitados
+ * - error: Mensagem de erro (se houver)
+ * 
+ * Link para cadastro disponível para novos usuários.
+ */
+
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Navigate, Link } from 'react-router-dom';

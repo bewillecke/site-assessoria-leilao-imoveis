@@ -1,3 +1,30 @@
+/**
+ * Home.jsx - Página Inicial da Aplicação
+ * 
+ * Página de entrada do site, projetada para capturar a atenção do visitante
+ * e direcioná-lo para as oportunidades de imóveis em leilão.
+ * 
+ * Seções da página:
+ * 1. HEADER + NAVBAR: Cabeçalho e navegação (componentes globais)
+ * 2. BUSCA RÁPIDA: Formulário para filtrar por cidade e preço máximo
+ * 3. BENEFÍCIOS: Cards explicando vantagens de investir em leilões
+ * 4. CARROSSEL: Imóveis em destaque (8 aleatórios)
+ * 5. ABOUT: Breve apresentação da empresa
+ * 6. FOOTER: Rodapé com redes sociais
+ * 
+ * Funcionalidades:
+ * - Busca com autocomplete de cidades brasileiras
+ * - Slider de preço máximo (R$ 50k - R$ 500k)
+ * - Redirecionamento para /oportunidades com filtros aplicados
+ * - Carrossel auto-play com imóveis selecionados aleatoriamente
+ * 
+ * Estados:
+ * - imoveis: Array de imóveis carregados da API
+ * - cidadeBusca: Texto digitado no campo de cidade
+ * - precoMaxBusca: Valor selecionado no slider
+ * - cidadeDropdownOpen: Controla visibilidade do dropdown
+ */
+
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { shufflePick } from "../utils/formatters";

@@ -1,8 +1,32 @@
+/**
+ * FavoritosContext.jsx - Contexto de Gerenciamento de Favoritos
+ * 
+ * Este contexto gerencia a lista de imóveis favoritos do usuário.
+ * Suporta dois modos de operação:
+ * 
+ * 1. USUÁRIO LOGADO: Favoritos são sincronizados com o servidor via API
+ * 2. VISITANTE (não logado): Favoritos são armazenados apenas no localStorage
+ * 
+ * Funcionalidades:
+ * - toggleFavorito(imovel): Adiciona ou remove um imóvel dos favoritos
+ * - isFavorito(id): Verifica se um imóvel está nos favoritos
+ * - limparFavoritos(): Remove todos os favoritos
+ * - totalFavoritos: Contador de itens na lista
+ * 
+ * Dispara eventos customizados para o sistema de analytics quando
+ * favoritos são adicionados ou removidos.
+ */
+
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
+// Criação do contexto de favoritos
 const FavoritosContext = createContext();
 
+/**
+ * Hook para acessar o contexto de favoritos
+ * @returns {Object} { favoritos, toggleFavorito, isFavorito, limparFavoritos, totalFavoritos }
+ */
 export function useFavoritos() {
   const context = useContext(FavoritosContext);
   if (!context) {

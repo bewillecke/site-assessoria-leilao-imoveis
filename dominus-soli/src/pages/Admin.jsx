@@ -1,3 +1,47 @@
+/**
+ * Admin.jsx - Painel Administrativo
+ * 
+ * Página completa de administração do sistema, acessível apenas
+ * para usuários autenticados (protegida por ProtectedRoute).
+ * 
+ * ABAS DO PAINEL:
+ * 
+ * 1. DASHBOARD:
+ *    - Cards com métricas: imóveis, mensagens, usuários
+ *    - Gráficos de distribuição por cidade
+ *    - Imóveis mais favoritados
+ * 
+ * 2. IMÓVEIS:
+ *    - Formulário para cadastrar/editar imóveis
+ *    - Lista de imóveis com ações (editar/deletar)
+ *    - CRUD completo via API
+ * 
+ * 3. MENSAGENS:
+ *    - Lista de contatos recebidos
+ *    - Filtro: todas/lidas/não-lidas
+ *    - Funcionalidade de responder (envia email)
+ *    - Marcar como lida/deletar
+ *    - Exportar para CSV
+ * 
+ * 4. ANALYTICS:
+ *    - Visualizações por imóvel
+ *    - Histórico de favoritos
+ *    - Contatos por origem
+ *    - Gráficos de tendência (Recharts)
+ *    - Botão para limpar dados
+ * 
+ * 5. COMENTÁRIOS:
+ *    - Moderação de comentários pendentes
+ *    - Aprovar/rejeitar/deletar
+ *    - Visualizar todos os comentários por status
+ * 
+ * Estados principais:
+ * - activeTab: Aba atual selecionada
+ * - imoveis, mensagens, stats: Dados carregados da API
+ * - form, editingId: Controle do formulário de imóveis
+ * - filtroMensagens: Filtro ativo para mensagens
+ */
+
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useAnalytics } from '../contexts/AnalyticsContext';

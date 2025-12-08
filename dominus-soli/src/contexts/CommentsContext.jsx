@@ -1,8 +1,38 @@
+/**
+ * CommentsContext.jsx - Contexto de Comentários e Avaliações
+ * 
+ * Este contexto gerencia o sistema de comentários e avaliações dos imóveis.
+ * Implementa um fluxo de aprovação onde comentários passam por moderação.
+ * 
+ * Estados de um comentário:
+ * - 'pending': Aguardando moderação (não visível publicamente)
+ * - 'approved': Aprovado e visível para todos
+ * - 'rejected': Rejeitado e não visível
+ * 
+ * Funcionalidades públicas:
+ * - fetchCommentsByImovel(imovelId): Busca comentários aprovados de um imóvel
+ * - addComment(imovelId, rating, texto): Adiciona novo comentário (requer login)
+ * - getImovelRating(imovelId): Obtém média de avaliações do imóvel
+ * 
+ * Funcionalidades administrativas:
+ * - fetchAllComments(status): Busca todos comentários, opcionalmente por status
+ * - approveComment(id): Aprova um comentário pendente
+ * - rejectComment(id): Rejeita um comentário
+ * - deleteComment(id): Remove permanentemente um comentário
+ * 
+ * Todas as operações são sincronizadas com o servidor via API REST.
+ */
+
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
+// Criação do contexto de comentários
 const CommentsContext = createContext();
 
+/**
+ * Hook para acessar o contexto de comentários
+ * @returns {Object} { comments, loading, fetchCommentsByImovel, fetchAllComments, addComment, approveComment, rejectComment, deleteComment, getImovelRating }
+ */
 export function useComments() {
   const context = useContext(CommentsContext);
   if (!context) {

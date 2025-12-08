@@ -1,3 +1,31 @@
+/**
+ * CommentForm.jsx - Formulário de Comentários e Avaliações
+ * 
+ * Componente que permite usuários logados deixarem avaliações
+ * e comentários sobre imóveis.
+ * 
+ * Campos:
+ * - Rating: Sistema de 1-5 estrelas (clique para selecionar)
+ * - Texto: Comentário descritivo (mínimo 10 caracteres)
+ * 
+ * Validações:
+ * - Obrigatório selecionar rating
+ * - Comentário deve ter pelo menos 10 caracteres
+ * - Usuário deve estar logado
+ * 
+ * Comportamento:
+ * - Visitante: Exibe links para login/cadastro
+ * - Logado: Mostra formulário completo
+ * - Sucesso: Limpa campos e exibe mensagem
+ * - Erro: Exibe mensagem de erro
+ * 
+ * Os comentários enviados ficam em status 'pending' até
+ * serem aprovados por um administrador.
+ * 
+ * @param {string} imovelId - ID do imóvel sendo comentado
+ * @param {Function} onCommentAdded - Callback após adicionar comentário
+ */
+
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';

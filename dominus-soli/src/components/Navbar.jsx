@@ -1,3 +1,23 @@
+/**
+ * Navbar.jsx - Componente de Navegação Principal
+ * 
+ * Barra de navegação fixa (sticky) que fica sempre visível no topo.
+ * Contém links para todas as seções do site e informações do usuário.
+ * 
+ * Funcionalidades:
+ * - Menu desktop: Links horizontais para todas as páginas
+ * - Menu mobile: Menu hamburger com dropdown
+ * - Contador de favoritos: Badge vermelho mostrando quantidade
+ * - Área de usuário: Nome do usuário logado + botão de logout
+ * 
+ * Estados:
+ * - menuOpen: Controla visibilidade do menu mobile
+ * - totalFavoritos: Obtido do FavoritosContext
+ * - user: Obtido do AuthContext
+ * 
+ * Estilização: Fundo amarelo (#e6b952), texto azul (#11397a)
+ */
+
 import "../index.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";

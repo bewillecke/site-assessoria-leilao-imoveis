@@ -1,3 +1,36 @@
+/**
+ * ImovelDetalhes.jsx - Página de Detalhes do Imóvel
+ * 
+ * Página completa com todas as informações de um imóvel específico.
+ * Acessada via rota dinâmica /imovel/:id
+ * 
+ * Seções da página:
+ * 1. FOTO PRINCIPAL: Imagem em destaque do imóvel
+ * 2. BOTÕES DE COMPARTILHAR: WhatsApp, Facebook, Email + Favoritar
+ * 3. CARD DE INFORMAÇÕES: Preço, localização, características, data
+ * 4. SIMULAÇÃO RÁPIDA: Cálculo de entrada e parcelas
+ * 5. MAPA: Localização exata (Leaflet) se houver coordenadas
+ * 6. DESCRIÇÃO: Texto sobre o imóvel
+ * 7. COMENTÁRIOS: Sistema de avaliações e comentários
+ * 8. IMÓVEIS SIMILARES: Carrossel de imóveis da mesma cidade
+ * 
+ * Funcionalidades:
+ * - Registra visualização no analytics
+ * - Botão para abrir calculadora de viabilidade (modal)
+ * - Compartilhamento em redes sociais
+ * - Adicionar/remover favoritos
+ * - Solicitar assessoria (link para contato)
+ * - Sistema de comentários com rating 1-5 estrelas
+ * 
+ * Estados:
+ * - imovel: Dados do imóvel atual
+ * - imoveisSimilares: Imóveis da mesma cidade
+ * - loading: Carregamento inicial
+ * - mostrarCalculadora: Controla modal da calculadora
+ * - rating: Média de avaliações do imóvel
+ * - comments: Comentários aprovados
+ */
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";

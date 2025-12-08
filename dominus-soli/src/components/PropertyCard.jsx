@@ -1,3 +1,24 @@
+/**
+ * PropertyCard.jsx - Card de Imóvel
+ * 
+ * Componente reutilizável que exibe um resumo de um imóvel em formato de card.
+ * Utilizado em carroséis, grids de oportunidades e listagens.
+ * 
+ * Exibe:
+ * - Foto do imóvel (com fallback para caminhos relativos)
+ * - Preço formatado em BRL
+ * - Localização (cidade/estado)
+ * - Características (quartos, banheiros, tamanho)
+ * - Data do leilão
+ * - Botão de favoritar (coração)
+ * 
+ * Interações:
+ * - Click no card: Navega para página de detalhes
+ * - Click no coração: Adiciona/remove dos favoritos
+ * 
+ * @param {Object} item - Objeto do imóvel com todas as propriedades
+ */
+
 import { Link } from "react-router-dom";
 import { BRL, formatDateBR } from "../utils/formatters";
 import { useFavoritos } from "../contexts/FavoritosContext";

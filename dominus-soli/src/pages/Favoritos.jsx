@@ -1,3 +1,28 @@
+/**
+ * Favoritos.jsx - Página de Imóveis Favoritos
+ * 
+ * Página que exibe todos os imóveis que o usuário marcou como favoritos.
+ * Permite visualizar rapidamente os imóveis de interesse e gerenciar a lista.
+ * 
+ * Funcionalidades:
+ * - Lista todos os imóveis favoritados em grid responsivo
+ * - Botão para remover individual de favoritos
+ * - Botão para limpar todos os favoritos (com confirmação)
+ * - Contador de imóveis salvos no título
+ * - Link para oportunidades quando lista está vazia
+ * 
+ * Cada card exibe:
+ * - Foto do imóvel
+ * - Preço formatado
+ * - Localização
+ * - Características (quartos, banheiros, m²)
+ * - Data do leilão
+ * - Botão para ver detalhes
+ * 
+ * Os favoritos são obtidos do FavoritosContext,
+ * que sincroniza com API (usuário logado) ou localStorage (visitante).
+ */
+
 import { useFavoritos } from "../contexts/FavoritosContext";
 import { useAnalytics } from "../contexts/AnalyticsContext";
 import { Link } from "react-router-dom";

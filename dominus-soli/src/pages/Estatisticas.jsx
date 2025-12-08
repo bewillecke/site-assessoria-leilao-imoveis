@@ -1,3 +1,33 @@
+/**
+ * Estatisticas.jsx - Dashboard Público de Estatísticas do Mercado
+ * 
+ * Página que apresenta análise estatística do mercado de imóveis em leilão.
+ * Todos os dados são calculados a partir dos imóveis cadastrados na plataforma.
+ * 
+ * Métricas exibidas (cards):
+ * - Preço médio geral
+ * - Maior oportunidade (menor preço)
+ * - Maior valor (imóvel premium)
+ * - Preço médio por m²
+ * 
+ * Gráficos (Recharts):
+ * - Barras horizontais: Top 10 cidades por preço médio
+ * - Pizza: Distribuição por faixa de preço (até 200k, 200-400k, etc.)
+ * - Linha: Tendência de preços (simulada - últimos 6 meses)
+ * - Barras: Distribuição por número de quartos
+ * 
+ * Cálculos realizados em calcularEstatisticas():
+ * - Agrupamento por cidade
+ * - Contagem por faixa de preço
+ * - Médias e extremos
+ * - Simulação de tendência temporal
+ * 
+ * Estados:
+ * - imoveis: Dados carregados da API
+ * - loading: Indica carregamento inicial
+ * - stats: Objeto com todas as estatísticas calculadas
+ */
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';

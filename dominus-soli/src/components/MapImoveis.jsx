@@ -1,3 +1,23 @@
+/**
+ * MapImoveis.jsx - Mapa Interativo de Imóveis
+ * 
+ * Componente que exibe um mapa do Brasil com marcadores
+ * indicando a localização de cada imóvel disponível.
+ * 
+ * Tecnologia: React-Leaflet com tiles do OpenStreetMap
+ * 
+ * Funcionalidades:
+ * - Mapa centrálizado no Brasil (zoom 4)
+ * - Marcadores azuis para cada imóvel
+ * - Popup ao clicar: endereço, cidade e preço
+ * - Zoom e pan interativos
+ * 
+ * @param {Array} imoveis - Array de imóveis com latitude e longitude
+ * 
+ * Nota: Requer que os imóveis tenham as propriedades:
+ * latitude, longitude, endereco, cidade_estado, preco
+ */
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { BRL } from '../utils/formatters';
 

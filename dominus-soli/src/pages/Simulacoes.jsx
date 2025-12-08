@@ -1,3 +1,28 @@
+/**
+ * Simulacoes.jsx - Página de Histórico de Simulações
+ * 
+ * Página que exibe todas as simulações de viabilidade salvas pelo usuário.
+ * As simulações são criadas na CalculadoraViabilidade e armazenadas
+ * no CalculadoraContext (persistidas no localStorage).
+ * 
+ * Cada card de simulação mostra:
+ * - Endereço e cidade do imóvel
+ * - Data/hora da simulação
+ * - Investimento total calculado
+ * - Lucro estimado (verde/vermelho conforme positivo/negativo)
+ * - ROI (Return on Investment)
+ * - Detalhamento de custos
+ * - Indicador visual de qualidade (excelente/bom/moderado/prejuízo)
+ * 
+ * Funcionalidades:
+ * - Remover simulação individual
+ * - Limpar todas as simulações
+ * - Link para ver o imóvel original
+ * - Grid responsivo (1/2/3 colunas)
+ * 
+ * Limite: Máximo de 10 simulações salvas (as mais antigas são removidas)
+ */
+
 import { useCalculadora } from '../contexts/CalculadoraContext';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';

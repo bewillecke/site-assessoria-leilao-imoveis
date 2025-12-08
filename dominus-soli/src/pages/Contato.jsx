@@ -1,3 +1,28 @@
+/**
+ * Contato.jsx - Página de Contato
+ * 
+ * Formulário para visitantes entrarem em contato com a Dominus Soli.
+ * As mensagens são enviadas para o servidor e ficam disponíveis
+ * no painel administrativo para resposta.
+ * 
+ * Campos do formulário:
+ * - Nome: Nome completo do interessado
+ * - Email: Email para resposta
+ * - Mensagem: Texto livre com a dúvida ou solicitação
+ * 
+ * Funcionalidades:
+ * - Validação de campos obrigatórios (HTML5 required)
+ * - Feedback visual de sucesso/erro
+ * - Loading state durante envio
+ * - Dispara evento de analytics para rastreamento
+ * - Limpa formulário após envio bem-sucedido
+ * 
+ * Estados:
+ * - formData: Dados atuais do formulário
+ * - loading: Indica se está enviando
+ * - message: Feedback para o usuário (sucesso ou erro)
+ */
+
 import { useState } from "react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";

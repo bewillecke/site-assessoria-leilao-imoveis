@@ -1,3 +1,32 @@
+/**
+ * CommentsList.jsx - Lista de Comentários de Imóvel
+ * 
+ * Componente que exibe os comentários aprovados de um imóvel.
+ * Mostra avaliação em estrelas, texto do comentário e informações
+ * do autor.
+ * 
+ * Elementos exibidos por comentário:
+ * - Avatar: Círculo colorido com iniciais do nome
+ * - Nome do usuário
+ * - Data formatada (ex: "Hoje", "3 dias atrás", "15 jan 2024")
+ * - Rating em estrelas (1-5)
+ * - Texto do comentário
+ * 
+ * Estados:
+ * - Loading: Exibe mensagem "Carregando comentários..."
+ * - Vazio: Convida usuário a ser o primeiro a comentar
+ * - Com dados: Lista todos os comentários
+ * 
+ * Funções auxiliares:
+ * - renderStars: Gera estrelas preenchidas/vazias
+ * - formatarData: Converte ISO para texto relativo
+ * - getInitials: Extrai iniciais do nome
+ * - getAvatarColor: Gera cor consistente por nome
+ * 
+ * @param {Array} comments - Array de comentários aprovados
+ * @param {boolean} loading - Estado de carregamento
+ */
+
 export default function CommentsList({ comments, loading }) {
   if (loading) {
     return (

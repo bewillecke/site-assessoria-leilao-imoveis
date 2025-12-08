@@ -1,3 +1,26 @@
+/**
+ * Comparador.jsx - Modal de Comparação de Imóveis
+ * 
+ * Modal que permite comparar até 3 imóveis lado a lado.
+ * Exibe as características principais de cada imóvel em colunas
+ * para facilitar a análise comparativa.
+ * 
+ * Informações comparadas:
+ * - Foto e localização
+ * - Preço do leilão
+ * - Área (m²) e preço por m²
+ * - Número de quartos e banheiros
+ * - Data do leilão
+ * 
+ * Layout:
+ * - Responsivo: 1 coluna mobile, 2 tablet, 3 desktop
+ * - Overlay escuro atrás do modal
+ * - Botão de fechar no cabeçalho
+ * 
+ * @param {Array} imoveis - Array de imóveis selecionados (máx 3)
+ * @param {Function} onClose - Callback para fechar o modal
+ */
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BRL, formatDateBR } from '../utils/formatters';

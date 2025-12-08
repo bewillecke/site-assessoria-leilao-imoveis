@@ -1,3 +1,18 @@
+/**
+ * About.jsx - Seção "Sobre Nós" Resumida
+ * 
+ * Componente que exibe uma breve introdução à Dominus Soli.
+ * Utilizado na página inicial (Home) para apresentar a empresa.
+ * 
+ * Conteúdo:
+ * - Título de boas-vindas
+ * - Slogan da empresa
+ * - Parágrafos descritivos sobre a atuação e valores
+ * 
+ * Este componente é estático, sem estado ou props.
+ * Para informações mais detalhadas, veja a página QuemSomos.
+ */
+
 export default function About() {
   return (
     <section className="max-w-5xl mx-auto text-center my-16 px-6">

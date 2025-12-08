@@ -1,3 +1,32 @@
+/**
+ * Oportunidades.jsx - Página de Listagem de Imóveis
+ * 
+ * Página principal para explorar todos os imóveis disponíveis em leilão.
+ * Oferece sistema completo de filtros e funcionalidade de comparação.
+ * 
+ * Filtros disponíveis:
+ * - Preço: Range duplo (mínimo e máximo)
+ * - Tamanho: Range duplo em m²
+ * - Cidade/UF: Busca com autocomplete
+ * - Quartos e Banheiros: Seleção exata
+ * 
+ * Funcionalidades:
+ * - Filtros em tempo real (sem botão de buscar)
+ * - Leitura de parâmetros da URL (vindos da Home)
+ * - Comparador de imóveis (até 3 simultâneos)
+ * - Mapa interativo com todos os imóveis filtrados
+ * - Botão de favoritar em cada card
+ * 
+ * Estados principais:
+ * - imoveis: Todos os imóveis carregados da API
+ * - filteredImoveis: Imóveis após aplicação dos filtros
+ * - imoveisParaComparar: Array de imóveis selecionados para comparação
+ * - mostrarComparador: Controla visibilidade do modal de comparação
+ * 
+ * O componente lê parâmetros 'cidade' e 'precoMax' da URL
+ * para permitir busca direcionada a partir da página Home.
+ */
+
 import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";

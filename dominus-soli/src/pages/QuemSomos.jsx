@@ -1,8 +1,25 @@
+/**
+ * QuemSomos.jsx - Página Institucional "Quem Somos"
+ * 
+ * Página que apresenta as profissionais por trás da Dominus Soli.
+ * Exibe fotos, nomes e descrições de cada sócia.
+ * 
+ * Profissionais apresentadas:
+ * 1. Soraya Willecke - Servidora pública, especialista em Direito Imobiliário
+ * 2. Ana Bek - Advogada especialista em Direito Imobiliário
+ * 
+ * Layout:
+ * - Desktop: Duas colunas lado a lado
+ * - Mobile: Uma coluna (empilhado)
+ * - Fotos circulares com borda azul
+ * 
+ * Este é um componente estático sem estado ou props.
+ * Todos os textos são fixos no código.
+ */
+
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
-export default function QuemSomos() {
   return (
     <>
       <Header />

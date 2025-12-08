@@ -1,7 +1,35 @@
+/**
+ * AnalyticsContext.jsx - Contexto de Analytics e Rastreamento
+ * 
+ * Este contexto rastreia e armazena dados de interação dos usuários com a plataforma.
+ * Os dados são usados para gerar estatísticas no painel administrativo.
+ * 
+ * Tipos de eventos rastreados:
+ * 1. VISUALIZAÇÕES: Quantas vezes cada imóvel foi visualizado (registrarVisualizacao)
+ * 2. FAVORITOS: Log de adições/remoções de favoritos (registrarFavorito)
+ * 3. CONTATOS: Origem dos contatos recebidos (registrarContato)
+ * 
+ * Funcionalidades:
+ * - registrarVisualizacao(imovelId): Incrementa contador de views do imóvel
+ * - registrarFavorito(imovelId, acao): Loga ação de favorito ('adicionar'/'remover')
+ * - registrarContato(origem): Registra origem do contato (ex: 'formulario_contato')
+ * - limparAnalytics(): Remove todos os dados de analytics (com confirmação)
+ * 
+ * Os eventos de favorito e contato são capturados via CustomEvents do window,
+ * permitindo que outros componentes disparem eventos sem dependência direta.
+ * 
+ * Persistência: Todos os dados são salvos no localStorage.
+ */
+
 import { createContext, useContext, useState, useEffect } from 'react';
 
+// Criação do contexto de analytics
 const AnalyticsContext = createContext();
 
+/**
+ * Hook para acessar o contexto de analytics
+ * @returns {Object} { visualizacoes, favoritosLog, contatosLog, registrarVisualizacao, registrarFavorito, registrarContato, limparAnalytics }
+ */
 export function useAnalytics() {
   const context = useContext(AnalyticsContext);
   if (!context) {

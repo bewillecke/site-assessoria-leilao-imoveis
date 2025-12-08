@@ -1,3 +1,36 @@
+/**
+ * CalculadoraViabilidade.jsx - Calculadora de Viabilidade de Investimento
+ * 
+ * Modal completo para simular a viabilidade financeira de um investimento
+ * imobiliário em leilão. Permite ao usuário inserir todos os custos
+ * envolvidos e calcular o retorno esperado.
+ * 
+ * Campos de entrada:
+ * - Valor do imóvel (lance inicial)
+ * - Dívidas Propter Rem (IPTU, condomínio atrasado)
+ * - Custos: reforma, ITBI, registro, advocacia, outros
+ * - Manutenção mensal e tempo até revenda
+ * - Valor estimado de revenda
+ * 
+ * Cálculos realizados:
+ * - Custo total do investimento
+ * - Lucro projetado
+ * - ROI (Return on Investment)
+ * - ROI anualizado
+ * - Margem de lucro
+ * - Preço por m² (custo vs revenda)
+ * 
+ * Gráficos (Recharts):
+ * - Pizza: Distribuição dos custos
+ * - Barras: Comparação investimento vs retorno
+ * - Linha: Evolução do custo ao longo do tempo
+ * 
+ * As simulações são salvas automaticamente via CalculadoraContext.
+ * 
+ * @param {Object} imovel - Imóvel sendo analisado (pré-preenche valores)
+ * @param {Function} onClose - Callback para fechar o modal
+ */
+
 import { useState } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useCalculadora } from '../contexts/CalculadoraContext';

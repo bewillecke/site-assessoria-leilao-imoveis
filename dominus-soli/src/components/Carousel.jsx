@@ -1,3 +1,23 @@
+/**
+ * Carousel.jsx - Carrossel de Imóveis
+ * 
+ * Componente que exibe imóveis em formato de carrossel horizontal
+ * com navegação por botões e auto-scroll.
+ * 
+ * Funcionalidades:
+ * - Auto-scroll: Avança automaticamente a cada 4 segundos
+ * - Loop infinito: Volta ao início ao chegar no final
+ * - Pausa no hover: Para o auto-scroll quando mouse está sobre o carrossel
+ * - Scroll suave: Animação de transição entre cards
+ * - Snap scroll: Cards se alinham automaticamente ao centro
+ * 
+ * Responsividade:
+ * - Desktop: Botões de navegação visíveis nas laterais
+ * - Mobile: Navegação por toque/arrasto
+ * 
+ * @param {Array} items - Array de imóveis para exibir no carrossel
+ */
+
 import { useEffect, useRef, useState } from "react";
 import PropertyCard from "./PropertyCard";
 

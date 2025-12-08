@@ -1,10 +1,42 @@
+/**
+ * index.css - Estilos Globais da Aplicação
+ * 
+ * Este arquivo contém estilos CSS personalizados que complementam
+ * o Tailwind CSS. É importado no main.jsx e aplicado globalmente.
+ * 
+ * SEÇÕES:
+ * 
+ * 1. IMPORTAÇÃO DO TAILWIND
+ *    @import "tailwindcss" - Carrega todas as classes utilitárias
+ * 
+ * 2. ESTILOS DO BODY
+ *    Previne overflow horizontal indesejado
+ * 
+ * 3. ÍCONES DE REDES SOCIAIS (.social-icon-*)
+ *    Gradientes e cores de fundo para os botões de compartilhamento:
+ *    - Instagram: Gradiente multicolorido característico
+ *    - Facebook: Azul #1877F2
+ *    - WhatsApp: Verde #25D366
+ *    Todos têm efeito hover de escurecimento
+ * 
+ * 4. NAVEGAÇÃO (.nav-underline)
+ *    Efeito de sublinhado animado nos links do menu:
+ *    - Linha azul (#11397a) que expande da esquerda para direita
+ *    - Animação suave com cubic-bezier
+ *    - Ativado no hover e focus
+ */
+
 @import "tailwindcss";
 
+/* Reset de overflow para evitar scroll horizontal */
 body {
 	overflow-x: hidden;
 	max-width: 100vw;
 }
 
+/* === ESTILOS DOS ÍCONES DE REDES SOCIAIS === */
+
+/* Instagram - Gradiente característico da marca */
 .social-icon-instagram {
 	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
 	transition: filter 0.2s;
@@ -12,6 +44,8 @@ body {
 .social-icon-instagram:hover {
 	filter: brightness(0.92);
 }
+
+/* Facebook - Azul oficial */
 .social-icon-facebook {
 	background-color: #1877F2 !important;
 	transition: filter 0.2s;
@@ -19,6 +53,8 @@ body {
 .social-icon-facebook:hover {
 	filter: brightness(0.92);
 }
+
+/* WhatsApp - Verde oficial */
 .social-icon-whatsapp {
 	background-color: #25D366 !important;
 	transition: filter 0.2s;
@@ -27,12 +63,17 @@ body {
 	filter: brightness(0.92);
 }
 
+/* === EFEITO DE SUBLINHADO NA NAVEGAÇÃO === */
+
+/* Container do link com posicionamento relativo para o pseudo-elemento */
 .nav-underline {
 	position: relative;
 	text-decoration: none;
 	display: inline-block;
 	padding-inline: 0.15em;
 }
+
+/* Linha de sublinhado animada */
 .nav-underline::after {
 	content: "";
 	position: absolute;
@@ -40,11 +81,13 @@ body {
 	bottom: -2px;
 	width: 100%;
 	height: 2px;
-	background-color: #11397a;
-	transform: scaleX(0);
-	transform-origin: left;
+	background-color: #11397a;        /* Cor primária azul */
+	transform: scaleX(0);             /* Começa invisível (escala 0) */
+	transform-origin: left;           /* Animação expande da esquerda */
 	transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
 }
+
+/* Expande a linha no hover e focus */
 .nav-underline:hover::after,
 .nav-underline:focus::after {
 	transform: scaleX(1);

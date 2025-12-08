@@ -1,3 +1,15 @@
+/**
+ * Footer.jsx - Componente de Rodapé do Site
+ * 
+ * Exibe o rodapé com:
+ * - Links para redes sociais (Instagram, Facebook, WhatsApp)
+ * - Informações legais e direitos reservados
+ * - Disclaimer sobre a natureza do serviço
+ * 
+ * Os ícones das redes sociais são SVGs inline para melhor performance.
+ * O componente é responsivo, adaptando o layout para diferentes telas.
+ */
+
 export default function Footer() {
   return (
     <footer className="bg-[#11397a] text-white mt-8">
