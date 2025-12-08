@@ -46,7 +46,7 @@ export default function Navbar() {
           </Link>
           <Link to="/simulacoes" className="nav-underline text-[#11397a]">SIMULAÇÕES</Link>
           <Link to="/estatisticas" className="nav-underline text-[#11397a]">ESTATÍSTICAS</Link>
-          <Link to="/contato" className="nav-underline text-[#11397a]">CONTATOS</Link>
+          <Link to="/contato" className="nav-underline text-[#11397a]">CONTATO</Link>
           {user ? (
             <div className="flex items-center gap-2 ml-2">
               <span className="text-[#11397a] text-sm font-bold truncate max-w-[100px]" title={user.name}>{user.name.split(' ')[0]}</span>
